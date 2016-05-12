@@ -1,0 +1,262 @@
+\begin{thebibliography}{10}
+
+\bibitem{akhawe2014clickjacking}
+D.~Akhawe, W.~He, Z.~Li, R.~Moazzezi, and D.~Song.
+\newblock Clickjacking revisited: a perceptual view of ui security.
+\newblock In {\em 8th USENIX Workshop on Offensive Technologies (WOOT 14)},
+  2014.
+
+\bibitem{armando2012dos}
+A.~Armando, A.~Merlo, M.~Migliardi, and L.~Verderame.
+\newblock Would you mind forking this process? a denial of service attack on
+  android (and some countermeasures).
+\newblock In {\em Information Security and Privacy Research}, pages 13--24.
+  Springer, 2012.
+
+\bibitem{arzt2014flowdroid}
+S.~Arzt, S.~Rasthofer, C.~Fritz, E.~Bodden, A.~Bartel, J.~Klein, Y.~Le~Traon,
+  D.~Octeau, and P.~McDaniel.
+\newblock Flowdroid: Precise context, flow, field, object-sensitive and
+  lifecycle-aware taint analysis for android apps.
+\newblock In {\em ACM SIGPLAN Notices}, volume~49, pages 259--269. ACM, 2014.
+
+\bibitem{au2012pscout}
+K.~W.~Y. Au, Y.~F. Zhou, Z.~Huang, and D.~Lie.
+\newblock Pscout: analyzing the android permission specification.
+\newblock In {\em Proceedings of the 2012 ACM conference on Computer and
+  communications security}, pages 217--228. ACM, 2012.
+
+\bibitem{bianchi2015app}
+A.~Bianchi, J.~Corbetta, L.~Invernizzi, Y.~Fratantonio, C.~Kruegel, and
+  G.~Vigna.
+\newblock What the app is that? deception and countermeasures in the android
+  user interface.
+\newblock In {\em Security and Privacy (SP), 2015 IEEE Symposium on}, pages
+  931--948. IEEE, 2015.
+
+\bibitem{bugiel2012towards}
+S.~Bugiel, L.~Davi, A.~Dmitrienko, T.~Fischer, A.-R. Sadeghi, and B.~Shastry.
+\newblock Towards taming privilege-escalation attacks on android.
+\newblock In {\em NDSS}, 2012.
+
+\bibitem{cao2015edgeminer}
+Y.~Cao, Y.~Fratantonio, A.~Bianchi, M.~Egele, C.~Kruegel, G.~Vigna, and
+  Y.~Chen.
+\newblock Edgeminer: Automatically detecting implicit control flow transitions
+  through the android framework.
+\newblock In {\em NDSS}, 2015.
+
+\bibitem{chen2013contextual}
+K.~Z. Chen, N.~M. Johnson, V.~D'Silva, S.~Dai, K.~MacNamara, T.~R. Magrino,
+  E.~X. Wu, M.~Rinard, and D.~X. Song.
+\newblock Contextual policy enforcement in android applications with permission
+  event graphs.
+\newblock In {\em NDSS}, 2013.
+
+\bibitem{chen2014peeking}
+Q.~A. Chen, Z.~Qian, and Z.~M. Mao.
+\newblock Peeking into your app without actually seeing it: Ui state inference
+  and novel android attacks.
+\newblock In {\em 23rd USENIX Security Symposium (USENIX Security 14)}, pages
+  1037--1052, 2014.
+
+\bibitem{cox2014spandex}
+L.~P. Cox, P.~Gilbert, G.~Lawler, V.~Pistol, A.~Razeen, B.~Wu, and
+  S.~Cheemalapati.
+\newblock Spandex: Secure password tracking for android.
+\newblock In {\em 23rd USENIX Security Symposium (USENIX Security 14)}, pages
+  481--494, 2014.
+
+\bibitem{desnos2013androguard}
+A.~Desnos.
+\newblock Androguard: Reverse engineering, malware and goodware analysis of
+  android applications... and more (ninja!).
+
+\bibitem{enck2014taintdroid}
+W.~Enck, P.~Gilbert, S.~Han, V.~Tendulkar, B.-G. Chun, L.~P. Cox, J.~Jung,
+  P.~McDaniel, and A.~N. Sheth.
+\newblock Taintdroid: an information-flow tracking system for realtime privacy
+  monitoring on smartphones.
+\newblock {\em ACM Transactions on Computer Systems (TOCS)}, 32(2):5, 2014.
+
+\bibitem{fang2014permission}
+Z.~Fang, W.~Han, and Y.~Li.
+\newblock Permission based android security: Issues and countermeasures.
+\newblock {\em computers \& security}, 43:205--218, 2014.
+
+\bibitem{felt2011android}
+A.~P. Felt, E.~Chin, S.~Hanna, D.~Song, and D.~Wagner.
+\newblock Android permissions demystified.
+\newblock In {\em Proceedings of the 18th ACM conference on Computer and
+  communications security}, pages 627--638. ACM, 2011.
+
+\bibitem{gordon2015DroidSafe}
+M.~I. Gordon, D.~Kim, J.~H. Perkins, L.~Gilham, N.~Nguyen, and M.~C. Rinard.
+\newblock Information flow analysis of android applications in droidsafe.
+\newblock In {\em NDSS}, 2015.
+
+\bibitem{hsiao2014race}
+C.-H. Hsiao, J.~Yu, S.~Narayanasamy, Z.~Kong, C.~L. Pereira, G.~A. Pokam, P.~M.
+  Chen, and J.~Flinn.
+\newblock Race detection for event-driven mobile applications.
+\newblock In {\em ACM SIGPLAN Notices}, volume~49, pages 326--336. ACM, 2014.
+
+\bibitem{huang2012clickjacking}
+L.-S. Huang, A.~Moshchuk, H.~J. Wang, S.~Schecter, and C.~Jackson.
+\newblock Clickjacking: attacks and defenses.
+\newblock In {\em Presented as part of the 21st USENIX Security Symposium
+  (USENIX Security 12)}, pages 413--428, 2012.
+
+\bibitem{jana2012memento}
+S.~Jana and V.~Shmatikov.
+\newblock Memento: Learning secrets from process footprints.
+\newblock In {\em Security and Privacy (SP), 2012 IEEE Symposium on}, pages
+  143--157. IEEE, 2012.
+
+\bibitem{jensen2013automated}
+C.~S. Jensen, M.~R. Prasad, and A.~M{\o}ller.
+\newblock Automated testing with targeted event sequence generation.
+\newblock In {\em Proceedings of the 2013 International Symposium on Software
+  Testing and Analysis}, pages 67--77. ACM, 2013.
+
+\bibitem{kim2014fepma}
+K.~Kim, D.~Shin, Q.~Xie, Y.~Wang, M.~Pedram, and N.~Chang.
+\newblock Fepma: Fine-grained event-driven power meter for android smartphones
+  based on device driver layer event monitoring.
+\newblock In {\em Proceedings of the conference on Design, Automation \& Test
+  in Europe}, page 367. European Design and Automation Association, 2014.
+
+\bibitem{klieber2014android}
+W.~Klieber, L.~Flynn, A.~Bhosale, L.~Jia, and L.~Bauer.
+\newblock Android taint flow analysis for app sets.
+\newblock In {\em Proceedings of the 3rd ACM SIGPLAN International Workshop on
+  the State of the Art in Java Program Analysis}, pages 1--6. ACM, 2014.
+
+\bibitem{li2015iccta}
+L.~Li, A.~Bartel, T.~F. Bissyand{\'e}, J.~Klein, Y.~Le~Traon, S.~Arzt,
+  S.~Rasthofer, E.~Bodden, D.~Octeau, and P.~McDaniel.
+\newblock Iccta: Detecting inter-component privacy leaks in android apps.
+\newblock In {\em Proceedings of the 37th International Conference on Software
+  Engineering-Volume 1}, pages 280--291. IEEE Press, 2015.
+
+\bibitem{lin2014screenmilker}
+C.-C. Lin, H.~Li, X.-y. Zhou, and X.~Wang.
+\newblock Screenmilker: How to milk your android screen for secrets.
+\newblock In {\em NDSS}, 2014.
+
+\bibitem{lu2012chex}
+L.~Lu, Z.~Li, Z.~Wu, W.~Lee, and G.~Jiang.
+\newblock Chex: statically vetting android apps for component hijacking
+  vulnerabilities.
+\newblock In {\em Proceedings of the 2012 ACM conference on Computer and
+  communications security}, pages 229--240. ACM, 2012.
+
+\bibitem{luo2012touchjacking}
+T.~Luo, X.~Jin, A.~Ananthanarayanan, and W.~Du.
+\newblock Touchjacking attacks on web in android, ios, and windows phone.
+\newblock In {\em Foundations and Practice of Security}, pages 227--243.
+  Springer, 2012.
+
+\bibitem{machiry2013dynodroid}
+A.~Machiry, R.~Tahiliani, and M.~Naik.
+\newblock Dynodroid: An input generation system for android apps.
+\newblock In {\em Proceedings of the 2013 9th Joint Meeting on Foundations of
+  Software Engineering}, pages 224--234. ACM, 2013.
+
+\bibitem{miluzzo2012tapprints}
+E.~Miluzzo, A.~Varshavsky, S.~Balakrishnan, and R.~R. Choudhury.
+\newblock Tapprints: your finger taps have fingerprints.
+\newblock In {\em Proceedings of the 10th international conference on Mobile
+  systems, applications, and services}, pages 323--336. ACM, 2012.
+
+\bibitem{mylonas2013smartphone}
+A.~Mylonas, V.~Meletiadis, L.~Mitrou, and D.~Gritzalis.
+\newblock Smartphone sensor data as digital evidence.
+\newblock {\em Computers \& Security}, 38:51--75, 2013.
+
+\bibitem{octeau2013epicc}
+D.~Octeau, P.~McDaniel, S.~Jha, A.~Bartel, E.~Bodden, J.~Klein, and
+  Y.~Le~Traon.
+\newblock Effective inter-component communication mapping in android with
+  epicc: An essential step towards holistic security analysis.
+\newblock {\em Effective Inter-Component Communication Mapping in Android with
+  Epicc: An Essential Step Towards Holistic Security Analysis}, 2013.
+
+\bibitem{poeplau2014execute}
+S.~Poeplau, Y.~Fratantonio, A.~Bianchi, C.~Kruegel, and G.~Vigna.
+\newblock Execute this! analyzing unsafe and malicious dynamic code loading in
+  android applications.
+\newblock In {\em NDSS}, volume~14, pages 23--26, 2014.
+
+\bibitem{rastogi2013appsplayground}
+V.~Rastogi, Y.~Chen, and W.~Enck.
+\newblock Appsplayground: automatic security analysis of smartphone
+  applications.
+\newblock In {\em Proceedings of the third ACM conference on Data and
+  application security and privacy}, pages 209--220. ACM, 2013.
+
+\bibitem{ren2015towards}
+C.~Ren, Y.~Zhang, H.~Xue, T.~Wei, and P.~Liu.
+\newblock Towards discovering and understanding task hijacking in android.
+\newblock In {\em 24th USENIX Security Symposium (USENIX Security 15)}, pages
+  945--959, 2015.
+
+\bibitem{roesner2013securing}
+F.~Roesner and T.~Kohno.
+\newblock Securing embedded user interfaces: Android and beyond.
+\newblock In {\em USENIX Security}, pages 97--112, 2013.
+
+\bibitem{sooel2016mob_ads}
+S.~Sooel, K.~Daehyeok, and S.~Vitaly.
+\newblock What mobile ads know about mobile users.
+\newblock In {\em NDSS}, 2016.
+
+\bibitem{soteris2016free}
+D.~Soteris, M.~Whitney, Y.~Wei, Z.~Aston, and A.~Carl.
+\newblock Free for all! assessing user data exposure to advertising libraries
+  on android.
+\newblock In {\em NDSS}, 2016.
+
+\bibitem{xing2014upgrading}
+L.~Xing, X.~Pan, R.~Wang, K.~Yuan, and X.~Wang.
+\newblock Upgrading your android, elevating my malware: Privilege escalation
+  through mobile os updating.
+\newblock In {\em Security and Privacy (SP), 2014 IEEE Symposium on}, pages
+  393--408. IEEE, 2014.
+
+\bibitem{xu2012taplogger}
+Z.~Xu, K.~Bai, and S.~Zhu.
+\newblock Taplogger: Inferring user inputs on smartphone touchscreens using
+  on-board motion sensors.
+\newblock In {\em Proceedings of the fifth ACM conference on Security and
+  Privacy in Wireless and Mobile Networks}, pages 113--124. ACM, 2012.
+
+\bibitem{yang2015static}
+S.~Yang, D.~Yan, H.~Wu, Y.~Wang, and A.~Rountev.
+\newblock Static control-flow analysis of user-driven callbacks in android
+  applications.
+\newblock In {\em Proceedings of the 37th International Conference on Software
+  Engineering-Volume 1}, pages 89--99. IEEE Press, 2015.
+
+\bibitem{zhang2016life}
+X.~Zhang, K.~Ying, Y.~Aafer, Z.~Qiu, and W.~Du.
+\newblock Life after app uninstallation: Are the data still alive? data residue
+  attacks on android.
+\newblock In {\em NDSS}, 2016.
+
+\bibitem{zhang2013vetting}
+Y.~Zhang, M.~Yang, B.~Xu, Z.~Yang, G.~Gu, P.~Ning, X.~S. Wang, and B.~Zang.
+\newblock Vetting undesirable behaviors in android apps with permission use
+  analysis.
+\newblock In {\em Proceedings of the 2013 ACM SIGSAC conference on Computer \&
+  communications security}, pages 611--622. ACM, 2013.
+
+\bibitem{zhou2013identity}
+X.~Zhou, S.~Demetriou, D.~He, M.~Naveed, X.~Pan, X.~Wang, C.~A. Gunter, and
+  K.~Nahrstedt.
+\newblock Identity, location, disease and more: Inferring your secrets from
+  android public resources.
+\newblock In {\em Proceedings of the 2013 ACM SIGSAC conference on Computer \&
+  communications security}, pages 1017--1028. ACM, 2013.
+
+\end{thebibliography}

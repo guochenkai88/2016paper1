@@ -253,7 +253,9 @@ Aiming at above challenges, we implement a statical analysis prototype tool CSDr
 
 Given such an app with certain PEC weaknesses, an adversary attacker could devise a rich variety of attacks. Since such attacks are mainly based on the display-sink, the attack types are somehow similar with traditional UI attacks. However, as the display-sink should be reasonably inferred from the PEC, adversary app needs to concern more details about time-delay and program flow conditions. Besides that, traditional UI attacks mainly rely on activity display of victim app; display-sink contains more types of displays such as dialog and notification, which allow attackers to flexibly craft more attacks contents. To validate the feasibility of such PEC weaknesses exploitation, we explore and implement a set of proof-of-concept attacks based on such threats, including not only traditional phishing and spoofing to sensitive pages, but also newly dialog and notification exploitation for privilege escalation and other privacy steal. 
 
-To migrate the impact of such PEC threats, we also discuss the defence strategy from two parts: Android system and developers. 
+///////////////// implementing corresponding an phishing attack app aiming at "webchat" app and a spoofing app on "ibank" app.  Then, a prevalent recent attack in PC called "ransomware" also can be engaged under the callback threats. Again, we develop corresponding malware of "ransomware" to indicate the feasibility of such attack. In order to check the influence of callback threats, we have completed an assessment implementation to automatically handle the detection. As our detection on a large scale of existing apps on Android market, the callback threats widely exist. Of all {\color{red}one million} apps downloaded from Google Play and other Android app markets, {\color{red}30\% } have this sort of callback structure vulnerability. which has constituted serious impact to users.
+
+We also discuss the defence strategy aiming to the callback threats.
 
 To summarize, the main contribution of this paper are:
 
@@ -270,24 +272,37 @@ In order to better understand the mechanism of this kind of attacks, firstly som
 
 Android platform is a kind of open source operating system established by Linux core. Developers could design and develop their own app product on Android in a flexible way, causing Android freely provides a variety of open source libraries and frameworks for developers. Of which, four types of components plays the key role in Android app's construction, namely \textit{Activity}, \textit{Service}, \textit{Broadcast Receiver} and \textit{Content Provider}. \textit{Activity} is designed as a graphical interface for interacting with users. Nevertheless, \textit{Service} is mainly used for handling complex computing job in background without a graphical user interface. \textit{Broadcast Receiver} provides a global listener that could trigger specific code logic when receive relative message. \textit{Content Provider} providers a universal interface for data storage and management, and for sharing data between different components. 
 
-**some definitions
+/////////////// The permissions mechanism as another protection mechanism is born along with the Android sandbox.Apps would be asked for requesting specific permissions when any of their functionalities involves any sensitive resources within the device environment. However, not all the permissions are able to attract user's concern.In fact, only very few permissions directly related to the private information such as location or SMS can arouse attention from ordinary users.According to this consideration, we ranked all of current permissions offered by Android 5 through a statistic algorithm on 1260 malicious apps[5] and 12000 normal apps on Google Play, and chose the permissions with {\color{red}5 highest risk} as alarm-permissions,{\color{red}{ showed in Figure1}}. As expected, {\color{red}{the selected alarm-permissions}} are all user-concerned in intuition.
 
-\subsubsection{Events in Android}
-As a side-effect of user-driven mechanism, Android provides numerous of callback interfaces to be implemented by generic developers. Different from conventional PC program launched by the \textit{main} function, callback function could only be executed when a specific event happens. The trigger-events originated by different sources are equipped with different trigger features. For instance, a \textit{low-battery} event would be triggered only when the rest quantity of battery becomes as low as a pre-defined level, which is irrelevant to user's interaction. 
+\subsubsection{Callback Categories}
+As a side-effect of user-driven mechanism, Android provides numerous of callback interfaces to be implemented by generic developers. Different from conventional PC program launched by the \textit{main} function, callback function could only be executed when a specific event happens. The trigger-events originated by different sources are equipped with different trigger features. For instance, a \textit{low-battery} event would be triggered only when the rest quantity of battery becomes as low as a pre-defined level, which is irrelevant to user's interaction. We categorize the callback functions as three groups in term of their trigger events, namely \textit{life-cycle} callbacks, \textit{user-driven} callbacks, and \textit{system-driven} callbacks.
 
-We categorize the trigger events that can lead to certain invocation of callback functions as three groups, namely \textit{life-cycle} event, \textit{user-driven} event, and \textit{system-driven} event.
+\textbf{Life-cycle callbacks} Android apps would spontaneously arouse corresponding callback function according to the life-cycle step it resides. For instance, an Activity executes its \textit{onCreate} function only when it is initially loaded, and executes the \textit{onPause} callback after it loses the screen focus. Life-cycle callbacks are somehow executed along with user's interactions and impacted by users. However, it performs fairly transparent to users, as a part of internal mechanism of Android system. Due to constraint of sandbox mechanism, the life-cycle phrases (Create,Pause,Destroy, etc.) of an given activity are entirely isolated from components belong to other apps. That is to say, any app component is unable to capture the life-cycle statuses from other apps. This sets up a huge obstacle for adversary app that wants to conduct attacks over target benign app.
 
-\textbf{Life-cycle event} Android apps would spontaneously arouse corresponding callback function according to the life-cycle step it resides. For instance, an Activity executes its \textit{onCreate} function only when it is initially loaded, and executes the \textit{onPause} callback after it loses the screen focus. Life-cycle callbacks are somehow executed along with user's interactions and impacted by users. However, it performs fairly transparent to users, as a part of internal mechanism of Android system. Due to constraint of sandbox mechanism, the life-cycle phrases (Create,Pause,Destroy, etc.) of an given activity are entirely isolated from components belong to other apps. That is to say, any app component is unable to capture the life-cycle statuses from other apps. This sets up a huge obstacle for adversary app that wants to conduct attacks over target benign app.
+\textbf{User-driven callbacks} User-driven callbacks interact with users in a direct way. User regularly are guided to perform diverse actions on screen, such as tapping, dropping up and down, click, double-click, etc., to operate a new app. Right after capturing an action from users, Android system would react following the  corresponding callback function that reflects the functionality and logic designed by developer. Generally, 
 
-\textbf{User-driven event} User-driven callbacks interact with users in a direct way. User regularly are guided to perform diverse actions on screen, such as tapping, dropping up and down, click, double-click, etc., to operate a new app. Right after capturing an action from users, Android system would react following the  corresponding callback function that reflects the functionality and logic designed by developer. Generally, 
+\textbf{System-driven callbacks} System-driven callbacks are normally triggered by a given system event which could be captured when a given system status changes. Not being the dependency of any apps, system status could be obtained by any app in theory so long as one is granted proper permissions. Generally, the permission granting could hardly attract user's attention for system event such as battery status is insensitive to user. To the end, system event provides an indirect entry for adversary app getting parts of the running process of other apps that implement system-driven callbacks interfaces.
 
-\textbf{System event} System-driven callbacks are normally triggered by a given system event which could be captured when a given system status changes. Not being the dependency of any apps, system status could be obtained by any app in theory so long as one is granted proper permissions. Generally, the permission granting could hardly attract user's attention for system event such as battery status is insensitive to user. To the end, system event provides an indirect entry for adversary app getting parts of the running process of other apps that implement system-driven callbacks interfaces.
+\subsubsection{Callback and Components}
+\textbf{Callback in Activity} 
+Most of callbacks in Activity are user-driven and life-cycle, causing activity is mainly used for providing a visible graphic interfaces so as to interact with users. As aforementioned, upon the protection of sandbox, these callback statuses are hardly obtained by other apps only if the event triggered by user is irrelevant to screen focus. For instance, a shake action from users would lead to \textit{sensor} related events, which have no especial association with the screen. Besides, still some system-driven callbacks are implemented in activity for feeding the requirements of functionalities. 
 
-Table1 lists typical system broadcast event examples.
+\textbf{Callback in Service} 
+Handling program logic and computing tasks in background, Service has no direct interaction with users, which is typically different from Activity. By this means, callbacks from service only come from life-cycle and system statuses. Yet, user action without screen focus could be an exception, which we will discuss later.
 
-\begin{table*}[t]
+Service life-cycle consists of five callback functions(onCreate, onStartCommand, onBind, onUnbind and onDestroy) but has a simpler life-cycle procedure compared with Activity. Being the same as Activity, these life-cycle callbacks are isolated from components of other apps so that has little utility value for attacker. 
+
+Regularly, most of \textit{Services} are designed to wait for a typical signal and then invoke corresponding callback functions to push their computing result to an output interface, such as a \textit{dialog} or an \textit{Activity}. In general, the signal could be any type of event, invocation from other component or a program condition. If the trigger event belongs to system events, it can be easily obtained by component from other apps. This makes possible for attackers to perceive the execution process of a target app.
+
+It is also possible to trigger a callback through an user-driven event in service, which is irrelevant to visible screen (e.g., shaking the phone to trigger SensorChanged event). Without specified receiver, this kind of events could be easily obtained by other apps either.   
+
+\textbf{Callback in Broadcast Receiver} 
+The \textit{Broadcast} has a wide spectrum of sources, from system or other components and can be delivered across all the installed apps through a common medium \textit{Intent}. Generally, callback functions in Broadcast Receiver only act as a channel that responses the coming Broadcast and then launches corresponding \textit{service} or \textit{activity} to handle it. However, once lacking of strong constraint, Broadcast Receiver could suffer from the threats of repeatedly receiving trash message from an adversary Broadcast sender. Similarly, it is also possible that a typical Broadcast is intercepted by a deliberately designed Receiver. Therefore, developers normally add some protection measures, such as setting the "export" property as false or using self-defined permission, to prevent from such attacks.
+
+Table1 lists typical broadcast event examples.
+\begin{table}[htbp]
 \centering
- \caption{\label{tab:test}System broadcast event callback}
+ \caption{\label{tab:test}System event callback}
  \begin{tabular}{lcll}
   \toprule
   Event & Callback & Permission & Usage\\
@@ -297,30 +312,14 @@ Table1 lists typical system broadcast event examples.
   Intent.ACTION\_DEVICE\_STORAGE\_LOW & onReceive & N/A & Storage space on the device is getting limited\\
   \bottomrule
  \end{tabular}
-\end{table*}
+\end{table}
 
-\subsubsection{Callback and Components}
-\textbf{Callback in Activity} 
-Most of callbacks in Activity are user-driven and life-cycle, causing activity is mainly used for providing a visible graphic interfaces so as to interact with users. As aforementioned, upon the protection of sandbox, these callback statuses are hardly obtained by other apps only if the event triggered by user is irrelevant to screen focus. For instance, a shake action from users would lead to \textit{sensor} related events, which have no especial association with the screen. Besides, some system-driven callbacks are implemented in activity for catering the requirements of functionalities. 
-
-\textbf{Callback in Service} 
-Handling program logic and computing tasks in background, Service has no direct interaction with users, which is typically different from Activity. By this means, callbacks from service only come from life-cycle and system statuses. Yet, user's action without screen focus could be an exception, which we will discuss later.
-
-Service life-cycle consists of five callback functions(onCreate, onStartCommand, onBind, onUnbind and onDestroy) but has a simpler life-cycle procedure compared with Activity. Being the same as Activity, these life-cycle callbacks are isolated from components of other apps so that has little utility value for attacker. 
-
-Regularly, most of \textit{Services} are designed to wait for a typical signal and then invoke corresponding callback functions to push their computing result to an output interface, such as a \textit{dialog} or an \textit{Activity}. In general, the signal could be any type of event, invocation from other component or a program condition. If the trigger event belongs to system events, it can be easily obtained by component from other apps. This makes possible for attackers to perceive the execution process of a target app.
-
-It is also possible to trigger a callback through a user-driven event in service, which is irrelevant to visible screen (e.g., shaking the phone to trigger SensorChanged event). Without specified receiver, this kind of events could be easily obtained by other apps either.   
-
-\textbf{Callback in Broadcast Receiver} 
-The \textit{Broadcast} has a wide spectrum of sources, from system or other components and can be delivered across all the installed apps through a common medium \textit{Intent}. Generally, callback functions in Broadcast Receiver only act as a channel that responses the coming Broadcast and then launches corresponding \textit{service} or \textit{activity} to handle it. However, once lacking of strong constraint, Broadcast Receiver could suffer from the threats of repeatedly receiving trash message from an adversary Broadcast sender. Similarly, it is also possible that a typical Broadcast is intercepted by a deliberately designed Receiver. Therefore, developers normally add some protection measures, such as setting the "export" property as false or using self-defined permission, to prevent from such attacks.
-
-\textbf{Callback in Content Provider}
-Content Provider acts as a channel for operating database in Android system, so callbacks in Content Provider appear quite trivial. However, 
-
-
+\textbf{Callback in Content Provider} 
 
  
+%Each Activity has a regular life-cycle sequence specified by a series of typical callback functions(onCreate, onPause, onDestrory, etc.)that offers  developers interfaces to implement corresponding functionality. 
+
+
 \section{Exploiting Callbacks}
 Android framework provides a variety of callback functions for developers conducting their apps a particular responding after a specific event happens. Yet, abusing these callbacks would incur undesirable consequence as well.
 \subsection{Motivating Example}
@@ -328,93 +327,38 @@ Android framework provides a variety of callback functions for developers conduc
 \begin{figure*}[t]
 \centering
 \scalebox{1}[0.8]{\includegraphics{pic1.png}}
-\caption{\label{} Motivating example about the PEC threats. In (a), a user prepare to try the "Shake"; (b) shows a normal case that a real result popped up after shake; (c) presents the further information of such real page after user clicks the result; (d) shows the case that the shake action is perceived by an adversary app, which pop up a fake "result" page after it receives the shake action; (e) presents the further fake information crafted by attacker, which is used to induce user to convince it.}
+\caption{\label{} Motivating example about Wechat app. (a) presents the "Shake" preparation page; (b) shows a real result of the "Shake"; (c) presents the information of such real page; (d) shows a fake "result" page linked from the "Shake"; (e) presents the fake information of the fake result.}
 \end{figure*}
 
-We take the well-known app Wechat as a motivating example. Wechat is known as a popular IM(Instant Messenger) tool for users sharing information and connecting with each other. Of diverse functionalities it provides, "Shake" is rather welcomed, which enables users to randomly obtain an online chatting partner so long as slightly shaking the device several times.
+We take the popular app Wechat as a motivating example. Wechat is known as a popular IM(Instant Messenger) tool for users sharing information and connecting with each other. Of diverse functionalities it provides, "YAO-YI-YAO" is rather welcomed, which enables users to randomly obtain an online chatting partner so long as slightly shaking the device several times, as shown in {\color{red}Figure 1}.
 
-Although harmony in surface, there exists potential crisis in the user shaking action which can be easily perceived by any other app through the {\color{red}SENSOR\_SERVICE}, a system service for managing inner device sensor. That is to say, only with the {\color{red}SystemSensorManager} object instantiation and the arrangement of shaking action size , an adversary app could clearly receive the same action event signal as Wechat. Further more, associating with the running status of Wechat through {\color{red}AMS(Activity Manager Service)}, adversary app could naturally make a judgement about the accurate time when the Wechat responding page would be popped up after user shaking. Although there exists an exception that user could shake the device in other page of "Wechat",the possibility of the exception's emergence is scarcely small in practice because user shakes device in such wide margin normally with intensive intention. {\color{red}Figure 1} shows how the "Shake" event is "stolen" by others. 
+With harmony in surface, there exists a potential crisis that the user shaking action could be easily perceived by any other app through the {\color{red}SENSOR\_SERVICE}, a system service for managing inner device sensor. That is to say, only needing to instantiate the {\color{red}sensormanager} object and arrange the shaking margin , an adversary app could clearly receive the same action event signal as Wechat. Further more, associating with the running status of Wechat through {\color{red}AMS(Activity Manager Service)}, adversary app could naturally make a judgement about the accurate time when the Wechat responding page would be popped up after user shaking. Although there is an exception that user shakes the device without "YAO-YI-YAO" page residing top location of task stack.  Yet, user shakes device in such wide margin normally with intensive intention, so this exception case is scarcely possible in practice.
 
-It seems that the PEC threats is easily ignored by developers and app markets. We see the callback time leakage severely because it offers a big change for attackers. A wily attacker could devise diverse attacks utilizing the PEC threats. For instants, attackers could deliberately construct a similar result page that links to a malicious third-party chatting tool, or even mimic a fake chatting page to pretend to chat with user for malicious purpose. We presents greater details about the attacks in section **.
+It seems that this kind of event leakage that we call it callback time leakage is easily ignored by developers and app markets. However, a wily attacker could devise diverse attacks utilizing the callback time leakage. For instants, attackers could deliberately construct a similar result page that links to a malicious third-party chatting tool, or even mimic a fake chatting page to pretend to chat with user for malicious purpose.
 
-\subsection{PEC Model} 
-
-In order to clearly illustrate the callback threats, we view the threats process as a kind of callback state model. Each PEC within a installed app can be described as (S,D,E,C), where "S" denotes current state of app, which can be observed by other apps; "D" denotes the final sink contained by the callback function; "E" denotes the event that invokes executing of the callback function; "C" denotes the proper control flow conditional values towards the "F".
-
-\textbf{Component-state}(s belongs to S). The component-state refers to if the components of an app are running, which provides basic materials to PEC. Similar to the Event, the component-state here also needs to be exposed to other apps.
-
-Before {\color{red}Android 5.0} emerging, the execution state of component like Activity and Service can be easily observed by the {\color{red}getRunningTasks method in ActivityManager object}. A more detailed observation needs to request the "GET\_TASK" permission, which could somehow attract the attention of most of normal users. However, Android starts to constraint the usage of this permission from recent {\color{red}Android 5.0} for the security consideration. The "REAL\_GET\_TASK" permission is only available to system apps; while normal third-party app is forbidden to request.  {\color{red}A substitute solution is to request new "PACKAGE\_USAGE\_STATS" permission, and to disable warning that permission is system level and will not be granted to third-party apps. Again, this approach needs extra permission request. }
-
-Although it is difficult to obtain the accurate running task above the version of 5.0, the running application package name is still easily obtained by getAppRunningProcess in ActivityManager. The good news is that the usage of "getAppRunningProcess" and "getRunningServices" are still available in the newest version and need not request any extra permission. Thus, we can judge if a typical app is running through the "getAppRunningProcess"[101]. Through a continuing such observation to a target app, we can determine if its launching activity is running on foreground. Besides, the "getRunningServices" can be used to distinguish which service is running in background in a more fine-grained way.
-
-In addition, statically-registered BroadcastReceiver always in the receiving state when the app is running, so its component-state is also easy to ensure. On the other side, the component-state of dynamically-registered BroadcastReceiver follows the running state of its host component, e.g., activity and service, and the method where it is registered.
-
-*** Content-provider
+///////////We see the callback time leakage severely because it offers a big change for attackers. 
 
 
-\textbf{Display-sink}(d belongs to D). Display Sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display-sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
+\subsection{Callback State Model} 
 
-As to the Display-sink, only those output vectors which can be leveraged by attackers are considered. Most of which are related to UI activity, causing the UI is designed as the main channel to interact with users. Some of the UI vectors are mentioned in recent research\cite{bianchi2015app}(e.g., startActivity API, Toast message), yet we also collect some other UI related vectors, e.g., AlertDialog.Builder API, NotificationManager API. Generally, both of Dialog frame and Notification need response from users(e.g., click) and then engage corresponding reaction functionalities. This process offers chance for attackers to interfere the users behaviours, which is insecure.
+\# We utilize the task state transition model in[100] to illustrate the task transition process in callback attacks. 
+It is worth noting that there is only one back stack in our model, causing the task hijacking[100] is not taken into consideration in this paper.
 
-Besides, some non-UI vectors are also contained, e.g., audio, vibrate related API, sendBroadcast. Similar to UI related vectors, audio and vibrate related API also engage information output although as different information forms("voice and vibration"). The "SendBroadcast" is able to deliver information between different apps, breaking the constraint of sandbox. Therefore, the app that receives the broadcast could be operated by others.  
+In order to clearly illustrate the callback threats, we view the threats process as a kind of callback state model. Each callback within a installed app can be described as (E,S,F,C), where "E" denotes the event that invokes executing of the callback function; "S" denotes current state of app, which can be observed by other apps; "F" denotes the final sink contained by the callback function; "C" denotes the proper control flow conditional values towards the "F".
 
+1. \textbf{Event}(e belongs to E).  The event here refers to those can be observed by public. For example, normally user-click event does not belong to the set, causing it generally only can be preserved by local app components; other app is forbidden to obtain this event due to the isolation of sandbox.
 
-1 for Dialog
+2. \textbf{State}(s belongs to S). The State refers to current program state of an app, through which the running location can be  inferred. Similar to the Event, the State here also needs to be exposed to other apps. 
 
-Generally speaking, it goes against Android design and UI guidelines that directly launching a Dialog from Service. Therefore, if AlertDialog is roughly created from a Service there would pop up an error report causing Dialog is implemented relying on a particular Activity. However, still it would pretty work that setting a system alert Dialog with the "SYSTEM\_ALERT\_WINDOW" permission grant. This kind of Dialog has global feature that can be invoked by a Service or a system event rather than an Activity. 
+3. \textbf{Display Sink}(f belongs to F). Display Sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display Sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
 
-2 for Toast
+4. \textbf{Control Flow}(C). Control Flow is a collection of conditional values over the path from a typical State to a Final Sink. In theory, as for a callback threat vulnerable app, the "C" needs to guarantee an observable and feasible path that can reach the Final Sink. However, the "C" that strictly conforms above definition rarely emerges in real apps, so that we adopt a more flexible mechanism in practice which will be introduced in next chapter.  
 
-Similar to Dialog, the Toast, in general, also should be constructed based on an existing Activity. The reason of that is one of the parameters needed by Toast function refers to the main UI context the one belongs to. Therefore, directly popping up from Service would not work causing the UI context is erroneously referred. In principle, the communication between main thread and sub thread mainly relies on the message queue and message cycle in Android, which follows the communication mechanism in traditional Windows. In practice, a common-used tool class "Handler" can be used to insert the self-defined thread message into the main thread queue, so that the main thread UI context can be obtained by the Toast.
+\subsection{Callback Vulnerability Example} 
 
-3 for StartActivity
+We takes the memory Event as an example to depict the callback threats in detail. As the code snippet shown in {\color{red}Figure 2}, it is a typical OnReceiver callback function would be invoked right after a memory-changing event happens. 
 
-Some Activity or Service is set self-defined permission to improve the security protection. For those low risk "protectionLevel", namely "normal" and "dangerous", we can still apply corresponding self-defined permission to access the target components. Nevertheless, for those high risk level, namely "signature" and "signatureOrSystem", currently there is no any effect way to access the target components by a third party app.
-
-4 for Notification
-
- ////// This kind of cases also need to be taken enough attentions in real attacks. 
-
-
- \textbf{Event}(e belongs to E).  The event here refers to those can be observed by public. For example, normally user-click event does not belong to the set, causing it generally only can be preserved by local app components; other app is forbidden to obtain this event due to the isolation of sandbox.
-
-Following introduction aforementioned, Event here contains three categories.
-
-1. Those Events originated from system are loaded by either Broadcast or serviceManagers. For serviceManagers ones, they normally need corresponding low-risk permission request(e.g., "android.permission.BATTERY\_STATS", "android.permission.VIBRATE ") to manipulate the event information. However, system broadcast need not any permission, leading to more threats.
-
-2. Those Events originated from other apps are loaded by implicit Intent or pendingIntent(contains implicit Intent). For explicit Intent, the destination is clearly defined as a typical app so that it is impossible for other app to obtain this kind of Intents. However, implicit Intent and pendingIntent could be sent to a set of apps so as long they match the Intent features.
-
-3. Those Events originated from users are loaded by serviceManager. These events generally are equipped with global characteristics that impacts not only single app.  For example, user click event could only affect the activity that occupies focus; while sensor change event would impact all the apps installed. Some of serviceManagers like sensorManager,audioManager need not permission request.
-
-\textbf{Control Flow}(C). Control Flow is a collection of conditional values over the path from a typical State to a Final Sink. In theory, as for a callback threat vulnerable app, the "C" needs to guarantee an observable and feasible path that can reach the Display-sink. However, the "C" that strictly conforms above definition rarely emerges in real apps, so that we adopt a more flexible mechanism in practice which will be introduced in next section.  
-
-Attackers need to find a feasible path from the State to the Final Sink within the given operable source code of a target app. For judging the existing of such path, we first collect the condition set of the paths to the Final Sink. Then a signal used to refer to if it is visible for each value, event and function emerging in the condition set is created. To describe more clearly, we denote the following concepts:
-
-1. c: the condition value of each branch.
-
-2. CS: the condition set collected from a program control flow path.
-
-3. cv(a) : the condition value of variable a and a = variable | function | event
-
-4. s(a): the signal value of variable a and a = variable | function | event, whose type is boolean.
-
-s(a) represents if the variable a can be observed by components from other apps. s(a) = true represents yes, s(a) = false represents no.
-
-5. CS = $\cap$ ( cv(a) \& s(a) ) = ($\cap$(c)) \& ( $\cap$ s(a))
-
-Above equation means the value of condition set of a particular path consists of two parts, 1. the value of each variable; 2. the signal value of it.  A feasible path needs not only has a solvable condition set, but also observable for each variable. However, practically we normally use the second equation to compute the feasibility of a target path. First, computing out if it is feasible for each branch ; then , considering if it is able to be observed for each variable with the branch condition.
-
-A traditional technique for above computation is symbolic execution. However, it needs unacceptable overhead in practice. {\color {red} To the end, we using an improved SMT approach to solve the constraint conditions.} Normally there should be feasible from source to sink in a target app, otherwise there exists a designation shortage with in the target app. Under this prerequisite, we only need to consider s(a), namely if all the variables are observable. 
-
-
-
-\begin{figure}[t]
-\centering
-\includegraphics[width = 3.0in]{control-flow.png}
-\caption{\label{}control-flow}
-\end{figure}
-
-
+blablabla``````
 
 \begin{figure}
 \centering
@@ -429,6 +373,7 @@ A traditional technique for above computation is symbolic execution. However, it
 \end{figure}
 
 
+\subsection{Model Vectors}
 
 \begin{table*}[htbp]
 \centering
@@ -439,8 +384,8 @@ A traditional technique for above computation is symbolic execution. However, it
   \toprule
   State & Display-sink & Event & Control Flow \\
   \midrule
- 1.Activity running state(Lauching page) & 1.startActivity & 1.Broadcast from system: \{Intent.ACTION\_BATTERY\_LOW\} & 1.branch or cycle condition analysis \\
-  2. Service running state &2. Toast message & 2.Implicit Intent\& pendingIntent & 2.method invocation analysis\\
+ 1.Activity running state(Lauching page) & 1.startActivity & 1.Broadcast from system: \{Intent.ACTION\_BATTERY\_LOW\} & 1.branch or cycle condition value \\
+  2. Service running state &2. Toast message & 2.Implicit Intent\& pendingIntent & 2.inter-procedure condition value\\
      & 3.AlertDialog. Builder & 3.ServiceManager(need not permission grant): { sensorManager, memoryManager }\\
      & 4.sendBroadcast (intent)& 4.ServiceManager(need permission grant): { batteryManager }\\     
      & 5.AudioManager API & \\
@@ -454,6 +399,80 @@ A traditional technique for above computation is symbolic execution. However, it
 
 
 {\color{red}Table 2} lists the main vulnerability vectors with the callback threats. 
+
+Before {\color{red}Android 5.0} emerging, the execution state of component like Activity and Service can be easily observed by the {\color{red}getRunningTasks method in ActivityManager object}. A more detailed observation needs to request the "GET\_TASK" permission, which could somehow attract the attention of most of normal users. Unfortunately, Android starts to constraint the usage of this permission from recent {\color{red}Android 5.0} for the security consideration. The "REAL\_GET\_TASK" permission is only available to system apps; while normal third-party app is forbidden to request.  {\color{red}An substitute solution is to request new "PACKAGE\_USAGE\_STATS" permission, and to disable warning that permission is system level and will not be granted to third-party apps. Again, this approach needs extra permission request. }
+
+Although it is difficult to obtain the accurate running task above the version of 5.0, the running application package name is still easily obtained by getAppRunningProcess in ActivityManager. The good news is that the usage of "getAppRunningProcess" and "getRunningServices" are still available in the newest version and need not request any extra permission. Thus, we can judge if a typical app is running through the "getAppRunningProcess"[101]. Through a continuing such observation to a target app, we can determine if its launching activity is running on foreground. More fine-grained, the "getRunningServices" can be used to distinguish which service is running in background.
+
+{\color {blue} There is a kind of AccessibilityService that can capture other apps' states like "click, window change, input, etc.". However, it needs to let user grant the "service" in setting. So we could design a permission-escalation spoofing to enable the  AccessibilityService.}
+
+----------------------------------------------
+
+As to the Final Sink, only those output vectors which can be leveraged by attackers are considered. Most of which are related to UI activity, causing the UI is designed as the main channel to interact with users. Some of the UI vectors are mentioned in recent research[102](e.g., startActivity API, Toast message), yet we also collect some other UI related vectors, e.g., AlertDialog.Builder API, NotificationManager API. Generally, both of Dialog frame and Notification need response from users(e.g., click) and then engage corresponding reaction functionalities. This process offers chance for attackers to interfere the users behaviours, which is insecure.
+
+Besides, some non-UI vectors are also contained, e.g., audio, vibrate related API, sendBroadcast. Similar to UI related vectors, audio and vibrate related API also engage information output although as different information forms("voice and vibration"). The "SendBroadcast" is able to deliver information between different apps, breaking the constraint of sandbox. Therefore, the app that receives the broadcast could be operated by others.  
+
+\#\#\# 0401 added
+
+1 for Dialog
+
+Generally speaking, it goes against Android design and UI guidelines that directly launching a Dialog from Service. Therefore, if AlertDialog is roughly created from a Service there would pop up an error report causing Dialog is implemented relying on a particular Activity. However, still it would pretty work that setting a system alert Dialog with the "SYSTEM\_ALERT\_WINDOW" permission grant. This kind of Dialog has global feature that can be invoked by a Service or a system event rather than an Activity. 
+
+2 for Toast
+
+Similar to Dialog, the Toast, in general, also should be constructed based on an existing Activity. The reason of that is one of the parameters needed by Toast function refers to the main UI context the one belongs to. Therefore, directly popping up from Service would not work causing the UI context is erroneously referred. In principle, the communication between main thread and sub thread mainly relies on the message queue and message cycle in Android, which follows the communication mechanism in traditional Windows. In practice, a common-used tool class "Handler" can be used to insert the self-defined thread message into the main thread queue, so that the main thread UI context can be obtained by the Toast.
+
+3 for StartActivity
+
+Some Activity or Service is set self-defined permission to improve the security protection. For those low risk "protectionLevel", namely "normal" and "dangerous", we can still apply corresponding self-defined permission to access the target components. Nevertheless, for those high risk level, namely "signature" and "signatureOrSystem", currently there is no any effect way to access the target components by a third party app.
+ ////// This kind of cases also need to be taken enough attentions in real attacks. 
+
+-----------------------------------------------
+
+Following introduction aforementioned, Event here contains three categories.
+
+1. Those Events originated from system are loaded by either Broadcast or serviceManagers. For serviceManagers ones, they normally need corresponding low-risk permission request(e.g., "android.permission.BATTERY\_STATS", "android.permission.VIBRATE ") to manipulate the event information. However, system broadcast need not any permission, leading to more threats.
+
+2. Those Events originated from other apps are loaded by implicit Intent or pendingIntent(contains implicit Intent). For explicit Intent, the destination is clearly defined as a typical app so that it is impossible for other app to obtain this kind of Intents. However, implicit Intent and pendingIntent could be sent to a set of apps so as long they match the Intent features.
+
+3. Those Events originated from users are loaded by serviceManager. These events generally are equipped with global characteristics that impacts not only single app.  For example, user click event could only affect the activity that occupies focus; while sensor change event would impact all the apps installed. Some of serviceManagers like sensorManager,audioManager need not permission request.
+
+\paragraph{Program Control Flow}
+
+Reverse engineering 
+
+Statical Analysis
+
+Attackers need to find a feasible path from the State to the Final Sink within the given operable source code of a target app. For judging the existing of such path, we first collect the condition set of the paths to the Final Sink. Then a signal used to refer to if it is visible for each value, event and function emerging in the condition set is created. To describe more clearly, we denote the following concepts:
+
+1. c: the condition value of each branch.
+
+2. CS: the condition set collected from a program control flow path.
+
+3. cv(a) : the condition value of variable a and a = variable | function | event
+
+4. s(a): the signal value of variable a and a = variable | function | event, whose type is boolean.
+
+s(a) represents if the variable a can be observed by components from other apps. s(a) = true represents yes, s(a) = false represents no.
+
+5 CS = "jiao" ( cv(a) \& s(a) ) = ("jiao"(c)) \& ( "jiao" s(a))
+
+Above equation means the value of condition set of a particular path consists of two parts, 1. the value of each variable; 2. the signal value of it.  A feasible path needs not only has a solvable condition set, but also observable for each variable. However, practically we normally use the second equation to compute the feasibility of a target path. First, computing out if it is feasible for each branch ; then , considering if it is able to be observed for each variable with the branch condition.
+
+A traditional technique for above computation is symbolic execution. However, it needs unacceptable overhead in practice. {\color {red} To the end, we using an improved SMT approach to solve the constraint conditions.} Normally there should be feasible from source to sink in a target app, otherwise there exists a designation shortage with in the target app. Under this prerequisite, we only need to consider s(a), namely if all the variables are observable. 
+
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width = 3.0in]{control-flow.png}
+\caption{\label{}control-flow}
+\end{figure}
+
+vectors
+1. battery  2. sensorManager 3. timer 4. implicate Intent 5. memory 6....
+
+features 1. toast 2. dialogue 3. Activity vision 4. camera 5. voice 6. notify 7....
 
 \section{Attack}
 
