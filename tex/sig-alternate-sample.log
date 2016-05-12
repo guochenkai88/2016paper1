@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.3.17)  11 MAY 2016 18:55
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.3.17)  12 MAY 2016 16:55
 entering extended mode
 **sig-alternate-sample.tex
 (sig-alternate-sample.tex
@@ -285,13 +285,13 @@ Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 LaTeX Warning: Label `' multiply defined.
 
 
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
 LaTeX Warning: Label `tab:test' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
 
 
 LaTeX Warning: Label `' multiply defined.
@@ -371,19 +371,37 @@ Requested font "cmex8" at 8.0pt
 Requested font "msam10" at 8.0pt
 Requested font "msbm10" at 8.0pt
 Requested font "lasy8" at 8.0pt
- Excluding 'CCSXML' comment.
-LaTeX Font Info:    Try loading font information for OMS+aer on input line 235.
+
+Overfull \hbox (1.34837pt too wide) in paragraph at lines 182--184
+\T1/aer/m/n/9 that makes An-droid ap-pli-ca-tion dif-fer-en-ti-ate from tra-di-
+tional
+ []
+
+Requested font "aer6" at 6.0pt
+Requested font "aeti9" at 9.0pt
+Requested font "aeti7" at 6.0pt
+
+Overfull \hbox (22.26399pt too wide) in paragraph at lines 208--215
+\T1/aer/m/n/9 `look and feel'. >>>>>>> 9e4349bc3c7a3208f19fd2f14a9a6b4b111bc14f
+
+ []
 
 
-(D:\software\MikTex1\tex\latex\ae\omsaer.fd
+Underfull \hbox (badness 10000) in paragraph at lines 208--215
+
+ []
+
+Excluding 'CCSXML' comment.
+LaTeX Font Info:    Try loading font information for OMS+aer on input line 260.
+
+ (D:\software\MikTex1\tex\latex\ae\omsaer.fd
 File: omsaer.fd 1999/12/27
 )
 LaTeX Font Info:    Font shape `OMS/aer/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 235.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 260.
 Requested font "aebx9" at 9.0pt
-Requested font "aeti9" at 9.0pt
 
-Overfull \hbox (4.91916pt too wide) in paragraph at lines 245--246
+Overfull \hbox (4.91916pt too wide) in paragraph at lines 270--271
 []\T1/aer/m/n/9 Callback mech-a-nism is orig-i-nated from PC pro-grams, which
  []
 
@@ -393,20 +411,23 @@ Overfull \hbox (4.91916pt too wide) in paragraph at lines 245--246
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-Overfull \hbox (3.1719pt too wide) in paragraph at lines 274--275
-\T1/aer/m/n/9 call-backs, \T1/aer/m/it/9 user-driven \T1/aer/m/n/9 call-backs, 
-and \T1/aer/m/it/9 system-driven \T1/aer/m/n/9 call-backs. 
- []
-
-[2]
-Overfull \hbox (6.848pt too wide) in paragraph at lines 278--279
-[]\T1/aer/bx/n/9 User-driven call-backs \T1/aer/m/n/9 User-driven call-backs in
--ter-act with
+ [2]
+Overfull \hbox (15.44197pt too wide) in paragraph at lines 302--303
+[]\T1/aer/m/n/9 The trigger-events orig-i-nated by dif-fer-ent sources are equi
+pped
  []
 
 
-Overfull \hbox (8.69182pt too wide) in paragraph at lines 303--304
+Overfull \hbox (1.59998pt too wide) in paragraph at lines 304--305
+\T1/aer/m/n/9 it re-sides. We call the event that can trig-ger life-cycle metho
+d
+ []
+
+
+Underfull \vbox (badness 1558) has occurred while \output is active []
+
+
+Overfull \hbox (8.69182pt too wide) in paragraph at lines 333--334
 []\T1/aer/m/n/9 Service life-cycle con-sists of five call-back func-tions(onCre
 ate,
  []
@@ -414,28 +435,52 @@ ate,
 
 Underfull \vbox (badness 1558) has occurred while \output is active []
 
+ [3]
 File: pic1.png Graphic file (type QTm)
 
-<use  "pic1.png" > [3]
-Underfull \vbox (badness 2111) has occurred while \output is active []
+<use  "pic1.png" >
+Overfull \hbox (1.75157pt too wide) in paragraph at lines 371--372
+[]\T1/aer/m/n/9 In ad-di-tion, statically-registered Broad-cas-tRe-ceiver al-wa
+ys
+ []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Overfull \hbox (12.6949pt too wide) in paragraph at lines 371--372
+\T1/aer/m/n/9 in the re-ceiv-ing state when the app is run-ning, so its compone
+nt-
+ []
 
- [4]
-Overfull \hbox (12.33728pt too wide) in paragraph at lines 356--357
+
+Overfull \hbox (3.75806pt too wide) in paragraph at lines 371--372
+\T1/aer/m/n/9 state is also easy to en-sure. On the other side, the component-
+ []
+
+
+Overfull \hbox (2.84232pt too wide) in paragraph at lines 371--372
+\T1/aer/m/n/9 state of dynamically-registered Broad-cas-tRe-ceiver fol-lows the
+
+ []
+
+[4]
+Overfull \hbox (2.92857pt too wide) in paragraph at lines 374--375
+\T1/aer/m/n/9 side. How-ever, dif-fer-ent from tra-di-tional con-cep-tion, Disp
+lay-
+ []
+
+
+Overfull \hbox (12.33728pt too wide) in paragraph at lines 378--379
 \T1/aer/m/n/9 for-ma-tion out-put al-though as dif-fer-ent in-for-ma-tion forms
 ("voice
  []
 
 
-Overfull \hbox (1.85933pt too wide) in paragraph at lines 369--371
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (1.85933pt too wide) in paragraph at lines 391--392
 \T1/aer/m/n/9 namely "sig-na-ture" and "sig-na-ture-OrSys-tem", cur-rently ther
 e
  []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -448,27 +493,27 @@ File: principle0.png Graphic file (type QTm)
  <use  "principle0.png" >
 File: principle.png Graphic file (type QTm)
  <use  "principle.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 452--452
+Underfull \hbox (badness 10000) in paragraph at lines 470--470
 []|\T1/aer/m/n/9 1.Activity run-ning
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 452--452
+Underfull \hbox (badness 10000) in paragraph at lines 470--470
 []|\T1/aer/m/n/9 1.Broadcast from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 452--452
+Underfull \hbox (badness 10000) in paragraph at lines 470--470
 \T1/aer/m/n/9 sys-tem: {In-
  []
 
 
-Overfull \hbox (20.38376pt too wide) in paragraph at lines 452--452
+Overfull \hbox (20.38376pt too wide) in paragraph at lines 470--470
 \T1/aer/m/n/9 tent.ACTION_BATTERY_LOW}| 
  []
 
 
-Underfull \hbox (badness 5417) in paragraph at lines 452--452
+Underfull \hbox (badness 5417) in paragraph at lines 470--470
 []|\T1/aer/m/n/9 3.ServiceManager(need not
  []
 
@@ -481,56 +526,54 @@ Underfull \vbox (badness 2828) has occurred while \output is active []
 Underfull \vbox (badness 1558) has occurred while \output is active []
 
 
-Overfull \hbox (37.39082pt too wide) in paragraph at lines 561--562
+Underfull \vbox (badness 1558) has occurred while \output is active []
+
+ [8]
+Overfull \hbox (37.39082pt too wide) in paragraph at lines 577--578
 \T1/aer/m/n/9 app acts as a pub-lic event, so that the in-tent sender("com.tenc
 ent.mm"
  []
 
 
-Underfull \vbox (badness 1558) has occurred while \output is active []
-
- [8]
-Overfull \hbox (3.78488pt too wide) in paragraph at lines 578--579
+Overfull \hbox (3.78488pt too wide) in paragraph at lines 594--595
 []\T1/aer/m/n/9 Then, the CS-Droid would rec-og-nize the PEC vec-tors within
  []
 
 [9]
-Overfull \hbox (7.41432pt too wide) in paragraph at lines 614--616
+Overfull \hbox (7.41432pt too wide) in paragraph at lines 630--632
 []\T1/aer/m/n/9 Android Event-driven Anal-y-sis Based on event-driven mech-
  []
 
 
-Overfull \hbox (23.00156pt too wide) in paragraph at lines 617--622
-\T1/aer/m/n/9 cussed in [32][5][1][25][17][33][23]. Again,in the work of [28][3
-7][27],
+Overfull \hbox (23.00156pt too wide) in paragraph at lines 633--638
+\T1/aer/m/n/9 cussed in [33][5][1][26][17][34][24]. Again,in the work of [29][3
+8][28],
  []
 
-
-Overfull \hbox (5.26138pt too wide) in paragraph at lines 623--628
+[10]
+Overfull \hbox (5.26138pt too wide) in paragraph at lines 639--644
 \T1/aer/m/n/9 cern-ing on An-droid sys-tem, pri-vacy data leak-age in-curs wide
 ly
  []
 
-(sig-alternate-sample.bbl [10]
+(sig-alternate-sample.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
+ [11]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [11])
-[12
-
-] (sig-alternate-sample.aux)
+) [12]
+(sig-alternate-sample.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2724 strings out of 428755
- 30663 string characters out of 3165588
+ 2729 strings out of 428755
+ 30712 string characters out of 3165588
  101989 words of memory out of 3000000
- 5992 multiletter control sequences out of 15000+200000
- 44606 words of font info for 60 fonts, out of 3000000 for 9000
+ 5995 multiletter control sequences out of 15000+200000
+ 47896 words of font info for 62 fonts, out of 3000000 for 9000
  1096 hyphenation exceptions out of 8191
  41i,11n,34p,1627b,476s stack positions out of 5000i,500n,10000p,200000b,50000s
 

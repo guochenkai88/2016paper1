@@ -113,6 +113,11 @@ S.~Jana and V.~Shmatikov.
 \newblock In {\em Security and Privacy (SP), 2012 IEEE Symposium on}, pages
   143--157. IEEE, 2012.
 
+\bibitem{getforeground}
+jaredrummler.
+\newblock Androidprocesses.
+\newblock https://github.com/jaredrummler/AndroidProcesses.
+
 \bibitem{jensen2013automated}
 C.~S. Jensen, M.~R. Prasad, and A.~M{\o}ller.
 \newblock Automated testing with targeted event sequence generation.
