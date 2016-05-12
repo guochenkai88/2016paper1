@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.3.17)  12 MAY 2016 16:55
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.3.17)  12 MAY 2016 19:05
 entering extended mode
 **sig-alternate-sample.tex
 (sig-alternate-sample.tex
@@ -424,10 +424,15 @@ d
  []
 
 
+Overfull \hbox (180.61044pt too wide) in paragraph at lines 313--329
+ [][] 
+ []
+
+
 Underfull \vbox (badness 1558) has occurred while \output is active []
 
 
-Overfull \hbox (8.69182pt too wide) in paragraph at lines 333--334
+Overfull \hbox (8.69182pt too wide) in paragraph at lines 340--341
 []\T1/aer/m/n/9 Service life-cycle con-sists of five call-back func-tions(onCre
 ate,
  []
@@ -438,37 +443,37 @@ Underfull \vbox (badness 1558) has occurred while \output is active []
  [3]
 File: pic1.png Graphic file (type QTm)
 
-<use  "pic1.png" >
-Overfull \hbox (1.75157pt too wide) in paragraph at lines 371--372
+<use  "pic1.png" > [4]
+Overfull \hbox (1.75157pt too wide) in paragraph at lines 378--379
 []\T1/aer/m/n/9 In ad-di-tion, statically-registered Broad-cas-tRe-ceiver al-wa
 ys
  []
 
 
-Overfull \hbox (12.6949pt too wide) in paragraph at lines 371--372
+Overfull \hbox (12.6949pt too wide) in paragraph at lines 378--379
 \T1/aer/m/n/9 in the re-ceiv-ing state when the app is run-ning, so its compone
 nt-
  []
 
 
-Overfull \hbox (3.75806pt too wide) in paragraph at lines 371--372
+Overfull \hbox (3.75806pt too wide) in paragraph at lines 378--379
 \T1/aer/m/n/9 state is also easy to en-sure. On the other side, the component-
  []
 
 
-Overfull \hbox (2.84232pt too wide) in paragraph at lines 371--372
+Overfull \hbox (2.84232pt too wide) in paragraph at lines 378--379
 \T1/aer/m/n/9 state of dynamically-registered Broad-cas-tRe-ceiver fol-lows the
 
  []
 
-[4]
-Overfull \hbox (2.92857pt too wide) in paragraph at lines 374--375
+
+Overfull \hbox (2.92857pt too wide) in paragraph at lines 381--382
 \T1/aer/m/n/9 side. How-ever, dif-fer-ent from tra-di-tional con-cep-tion, Disp
 lay-
  []
 
 
-Overfull \hbox (12.33728pt too wide) in paragraph at lines 378--379
+Overfull \hbox (12.33728pt too wide) in paragraph at lines 385--386
 \T1/aer/m/n/9 for-ma-tion out-put al-though as dif-fer-ent in-for-ma-tion forms
 ("voice
  []
@@ -477,7 +482,7 @@ Overfull \hbox (12.33728pt too wide) in paragraph at lines 378--379
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (1.85933pt too wide) in paragraph at lines 391--392
+Overfull \hbox (1.85933pt too wide) in paragraph at lines 398--399
 \T1/aer/m/n/9 namely "sig-na-ture" and "sig-na-ture-OrSys-tem", cur-rently ther
 e
  []
@@ -493,33 +498,37 @@ File: principle0.png Graphic file (type QTm)
  <use  "principle0.png" >
 File: principle.png Graphic file (type QTm)
  <use  "principle.png" >
-Underfull \hbox (badness 10000) in paragraph at lines 470--470
+Underfull \hbox (badness 10000) in paragraph at lines 477--477
 []|\T1/aer/m/n/9 1.Activity run-ning
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--470
+Underfull \hbox (badness 10000) in paragraph at lines 477--477
 []|\T1/aer/m/n/9 1.Broadcast from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 470--470
+Underfull \hbox (badness 10000) in paragraph at lines 477--477
 \T1/aer/m/n/9 sys-tem: {In-
  []
 
 
-Overfull \hbox (20.38376pt too wide) in paragraph at lines 470--470
+Overfull \hbox (20.38376pt too wide) in paragraph at lines 477--477
 \T1/aer/m/n/9 tent.ACTION_BATTERY_LOW}| 
  []
 
 
-Underfull \hbox (badness 5417) in paragraph at lines 470--470
+Underfull \hbox (badness 5417) in paragraph at lines 477--477
 []|\T1/aer/m/n/9 3.ServiceManager(need not
  []
 
-[6]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6]
 File: code1.png Graphic file (type QTm)
- <use  "code1.png" >
+
+<use  "code1.png" >
 Underfull \vbox (badness 2828) has occurred while \output is active []
 
  [7]
@@ -529,29 +538,32 @@ Underfull \vbox (badness 1558) has occurred while \output is active []
 Underfull \vbox (badness 1558) has occurred while \output is active []
 
  [8]
-Overfull \hbox (37.39082pt too wide) in paragraph at lines 577--578
+Overfull \hbox (37.39082pt too wide) in paragraph at lines 584--585
 \T1/aer/m/n/9 app acts as a pub-lic event, so that the in-tent sender("com.tenc
 ent.mm"
  []
 
 
-Overfull \hbox (3.78488pt too wide) in paragraph at lines 594--595
+Underfull \vbox (badness 1558) has occurred while \output is active []
+
+
+Overfull \hbox (3.78488pt too wide) in paragraph at lines 601--602
 []\T1/aer/m/n/9 Then, the CS-Droid would rec-og-nize the PEC vec-tors within
  []
 
 [9]
-Overfull \hbox (7.41432pt too wide) in paragraph at lines 630--632
+Overfull \hbox (7.41432pt too wide) in paragraph at lines 637--639
 []\T1/aer/m/n/9 Android Event-driven Anal-y-sis Based on event-driven mech-
  []
 
 
-Overfull \hbox (23.00156pt too wide) in paragraph at lines 633--638
+Overfull \hbox (23.00156pt too wide) in paragraph at lines 640--645
 \T1/aer/m/n/9 cussed in [33][5][1][26][17][34][24]. Again,in the work of [29][3
 8][28],
  []
 
 [10]
-Overfull \hbox (5.26138pt too wide) in paragraph at lines 639--644
+Overfull \hbox (5.26138pt too wide) in paragraph at lines 646--651
 \T1/aer/m/n/9 cern-ing on An-droid sys-tem, pri-vacy data leak-age in-curs wide
 ly
  []

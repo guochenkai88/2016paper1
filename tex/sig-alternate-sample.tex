@@ -301,7 +301,7 @@ Furthermore, we define a \textit{callback} as the code(e.g., function and progra
 \subsubsection{Events in Android}
 The trigger-events originated by different sources are equipped with different trigger features. For instance, a \textit{low-battery} event would happen only when the rest quantity of battery becomes as low as a pre-defined level, which is irrelevant to user's interaction. We categorize the events lied in Android that can lead to certain invocation of callback as three groups, namely \textit{life-cycle} event, \textit{user-driven} event, and \textit{system-driven} event.
 
-\textbf{Life-cycle event} Android apps spontaneously arouse corresponding callback function according to the life-cycle step it resides. We call the event that can trigger life-cycle method to execute as life-cycle event. For instance, an Activity executes its \textit{onCreate} function when it is initially loaded, and executes the \textit{onPause} callback after it loses the screen focus. Life-cycle callbacks are somehow executed along with user's interactions and impacted by users. On surface, due to constraint of sandbox mechanism, the life-cycle phrases (Create,Pause,Destroy, etc.) of an given activity seem to be isolated from components belong to other apps. However, the event triggering certain life-cycle callbacks like onCreate and onDestroy enables other app to predict it in an indirect way. For example, the event that an activity is launching leads to the onCreate method in that activity executing. We conclude such life-cycle event that can expose the execution trace of certain app in Table **.
+\textbf{Life-cycle event} Android apps spontaneously arouse corresponding callback function according to the life-cycle step it resides. We call the event that can trigger life-cycle method to execute as life-cycle event. For instance, an Activity executes its \textit{onCreate} function when it is initially loaded, and executes the \textit{onPause} callback after it loses the screen focus. Life-cycle callbacks are somehow executed along with user's interactions and impacted by users. On surface, due to constraint of sandbox mechanism, the life-cycle phrases (Create,Pause,Destroy, etc.) of an given activity seem to be isolated from components belong to other apps. However, the event triggering certain life-cycle callbacks like onCreate and onDestroy enables other app to predict it in an indirect way. For example, the event that an activity is launching leads to the onCreate method in that activity executing. We conclude such life-cycle event that can expose the execution trace of certain app in Table 1.
 
 \textbf{User-driven event} User-driven events interact with corresponding Android API in a direct way. User regularly are guided to perform diverse actions on screen, such as tapping, dropping up and down, click, double-click, etc., to operate a new app. Right after capturing an action from users, Android system would react following the  corresponding callback function that reflects the functionality and logic designed by developer. Generally, the user-driven event trigger the code execution of the one getting screen focus, which is hard capture by other apps. However, there still exists some user-driven events unrelated to the screen(e.g., shake action) acting as public events. 
 
@@ -310,13 +310,20 @@ The trigger-events originated by different sources are equipped with different t
 \begin{table*}[t]
 \centering
  \caption{\label{tab:test}System broadcast event callback}
- \begin{tabular}{lcll}
+ \begin{tabular}{llcll}
   \toprule
-  Event & Callback & Permission & Usage\\
+  Categories & Event & Callback & Permission & Public \\
   \midrule
-  Intent.ACTION\_BATTERY\_LOW & onReceive & N/A & The battery level has fallen below a threshold\\
-  Intent.ACTION\_BOOT\_COMPLETED & onReceive & N/A & Android is up and running\\
-  Intent.ACTION\_DEVICE\_STORAGE\_LOW & onReceive & N/A & Storage space on the device is getting limited\\
+  life-cycle & app starting & onCreate/onStart(launching activity); statical broadcast receiver & N/A & Y\\
+             & activity losing focus & onPause & N/A & N\\
+             & service starting & onCreate/onBind & N/A & Y\\
+             
+  user-driven & clicking button & onClick & N/A & N\\
+              & shaking & onSensorChanged & N/A & Y\\
+              
+  system  & Intent.ACTION\_BATTERY\_LOW & onReceive & N/A & Y \\
+          & Intent.ACTION\_BOOT\_COMPLETED & onReceive & RECEIVE\_BOOT\_COMPLETED & Y \\
+  
   \bottomrule
  \end{tabular}
 \end{table*}
