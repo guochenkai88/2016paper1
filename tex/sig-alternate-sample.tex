@@ -179,38 +179,35 @@ Jing Xu\\
 
 \maketitle
 \begin{abstract}
-<<<<<<< HEAD
 The feature of event-driven acts as a key role that makes Android application differentiate from traditional PC software. For many of those events are hardly predicted and could not be observed by other applications, attackers are similarly impossible to engage corresponding attacks by finding the vulnerabilities of such an event-driven mechanism. However, of various kinds of events offered by either user or system, there are still events that can be received by more than one applications and further, could offer important basic resources to predict specific behaviours of targeted application.
 
 PEC-threats(Public Events Callback)
-
 In this paper, we perform a systematic study of such "public events" and their callback functions, and analyse potential security threats inside them. By exploiting the prediction capability of such callbacks, we demonstrate typical kinds of proof-of-concept attack examples, including spoofing, phishing and privilege escalation.
 To evaluate the real influence of such threats, we implement a static analysis tool to detect a large scale of real world applications achieved from Google Play market. The detection result reveals such callback threats are pervasively existing in Android market applications. Since the threats involve in the fundamental design of the Android framework, it is very hard for ordinary developers and users to defense them. Given this challenge, we also proposed a migration strategy.
 
-=======
-The paper provides a sample of a \LaTeX\ document which conforms,
-somewhat loosely, to the formatting guidelines for
-ACM SIG Proceedings. It is an {\em alternate} style which produces
-a {\em tighter-looking} paper and was designed in response to
-concerns expressed, by authors, over page-budgets.
-It complements the document \textit{Author's (Alternate) Guide to
-Preparing ACM SIG Proceedings Using \LaTeX$2_\epsilon$\ and Bib\TeX}.
-This source file has been written with the intention of being
-compiled under \LaTeX$2_\epsilon$\ and BibTeX.
+%The paper provides a sample of a \LaTeX\ document which conforms,
+%somewhat loosely, to the formatting guidelines for
+%ACM SIG Proceedings. It is an {\em alternate} style which produces
+%a {\em tighter-looking} paper and was designed in response to
+%concerns expressed, by authors, over page-budgets.
+%It complements the document \textit{Author's (Alternate) Guide to
+%Preparing ACM SIG Proceedings Using \LaTeX$2_\epsilon$\ and Bib\TeX}.
+%This source file has been written with the intention of being
+%compiled under \LaTeX$2_\epsilon$\ and BibTeX.
+%
+%The developers have tried to include every imaginable sort
+%of ``bells and whistles", such as a subtitle, footnotes on
+%title, subtitle and authors, as well as in the text, and
+%every optional component (e.g. Acknowledgments, Additional
+%Authors, Appendices), not to mention examples of
+%equations, theorems, tables and figures.
+%
+%To make best use of this sample document, run it through \LaTeX\
+%and BibTeX, and compare this source code with the printed
+%output produced by the dvi file. A compiled PDF version
+%is available on the web page to help you with the
+%`look and feel'.
 
-The developers have tried to include every imaginable sort
-of ``bells and whistles", such as a subtitle, footnotes on
-title, subtitle and authors, as well as in the text, and
-every optional component (e.g. Acknowledgments, Additional
-Authors, Appendices), not to mention examples of
-equations, theorems, tables and figures.
-
-To make best use of this sample document, run it through \LaTeX\
-and BibTeX, and compare this source code with the printed
-output produced by the dvi file. A compiled PDF version
-is available on the web page to help you with the
-`look and feel'.
->>>>>>> 9e4349bc3c7a3208f19fd2f14a9a6b4b111bc14f
 \end{abstract}
 
 
@@ -305,12 +302,12 @@ The trigger-events originated by different sources are equipped with different t
 
 \textbf{User-driven event} User-driven events interact with corresponding Android API in a direct way. User regularly are guided to perform diverse actions on screen, such as tapping, dropping up and down, click, double-click, etc., to operate a new app. Right after capturing an action from users, Android system would react following the  corresponding callback function that reflects the functionality and logic designed by developer. Generally, the user-driven event trigger the code execution of the one getting screen focus, which is hard capture by other apps. However, there still exists some user-driven events unrelated to the screen(e.g., shake action) acting as public events. 
 
-\textbf{System event} System-driven event normally come from the situation a given system status changes. If not specified, system-driven event could be obtained by any app in theory so long as one is granted proper permissions. Generally, the permission granting could hardly attract user's attention for system event such as battery status is insensitive to user. To the end, system event provides an indirect entry for adversary app getting parts of the running process of other apps that implement system-driven callbacks interfaces. Table1 lists parts of system event instances.
+\textbf{System event} System event normally come from the situation a given system status changes. If not specified, system event could be obtained by any app in theory so long as one is granted proper permissions. Generally, the permission granting could hardly attract user's attention for system event such as battery status is insensitive to user. To the end, system event provides an indirect entry for adversary app getting parts of the running process of other apps that implement system-driven callbacks interfaces. Table1 lists parts of system event instances.
 
 \begin{table*}[t]
 \centering
- \caption{\label{tab:test}System broadcast event callback}
- \begin{tabular}{llcll}
+ \caption{\label{tab:test}Parts of events and callbacks in Android}
+ \begin{tabularx}{\linewidth}{XXXXX} 
   \toprule
   Categories & Event & Callback & Permission & Public \\
   \midrule
@@ -325,14 +322,14 @@ The trigger-events originated by different sources are equipped with different t
           & Intent.ACTION\_BOOT\_COMPLETED & onReceive & RECEIVE\_BOOT\_COMPLETED & Y \\
   
   \bottomrule
- \end{tabular}
+ \end{tabularx}
 \end{table*}
 
 \subsubsection{Callback and Components}
 Android platform is a kind of open source operating system established by Linux core. Developers could design and develop their own app product on Android in a flexible way, causing Android freely provides a variety of open source libraries and frameworks for developers. Of which, four types of components plays the key role in Android app's construction, namely \textit{Activity}, \textit{Service}, \textit{Broadcast Receiver} and \textit{Content Provider}. \textit{Activity} is designed as a graphical interface for interacting with users. Nevertheless, \textit{Service} is mainly used for handling complex computing job in background without a graphical user interface. \textit{Broadcast Receiver} provides a global listener that could trigger specific code logic when receive relative message. \textit{Content Provider} providers a universal interface for data storage and management, and for sharing data between different components. As a side-effect of user-driven mechanism, Android provides numerous of callback interfaces to be implemented by generic developers. Most of them rely on certain component, which we give greater details in follows.
 
 \textbf{Callback in Activity} 
-Most of callbacks in Activity are user-driven and life-cycle, causing activity is mainly used for providing a visible graphic interfaces so as to interact with users. As aforementioned, upon the protection of sandbox, these callback statuses are hardly obtained by other apps only if the event triggered by user is irrelevant to screen focus. For instance, a shake action from users would lead to \textit{sensor} related events, which have no especial association with the screen. Besides, some system-driven callbacks are implemented in activity for catering the requirements of functionalities. 
+Most of callbacks in Activity are invoked by user-driven and life-cycle events, causing activity is mainly used for providing a visible graphic interfaces so as to interact with users. As aforementioned, upon the protection of sandbox, these callback statuses are hardly obtained by other apps only if the event triggered by user is irrelevant to screen focus. For instance, a shake action from users would lead to \textit{sensor} related events, which have no especial association with the screen. Besides, some system-driven callbacks are implemented in activity for catering the requirements of functionalities. 
 
 \textbf{Callback in Service} 
 Handling program logic and computing tasks in background, Service has no direct interaction with users, which is typically different from Activity. By this means, callbacks from service only come from life-cycle and system statuses. Yet, user's action without screen focus could be an exception, which we will discuss later.
@@ -367,9 +364,11 @@ It seems that the PEC threats is easily ignored by developers and app markets. W
 
 \subsection{PEC Model} 
 
-In order to clearly illustrate the callback threats, we view the threats process as a kind of callback state model. Each PEC within a installed app can be described as (S,D,E,C), where "S" denotes current state of app, which can be observed by other apps; "D" denotes the final sink contained by the callback function; "E" denotes the event that invokes executing of the callback function; "C" denotes the proper control flow conditional values towards the "F".
+In order to clearly illustrate the callback threats, we view the threats process as a kind of callback state model. Each PEC within a installed app can be described as (S,D,E,C), where "S" denotes current state of app, which can be observed by other apps; "D" denotes the display-sink contained by the callback function; "E" denotes the event that invokes executing of the callback function; "C" denotes the proper control flow conditional values towards the "F".
 
-\textbf{Component-state}(s belongs to S). The component-state refers to if the components of an app are running, which provides basic materials to PEC. Similar to the Event, the component-state here also needs to be exposed to other apps.
+\paragraph{Component-state}
+
+(s belongs to S)The component-state refers to if the components of an app are running, which provides basic materials to PEC. Similar to the Event, the component-state here also needs to be exposed to other apps.
 
 Before {\color{red}Android 5.0} emerging, the execution state of component like Activity and Service can be easily observed by the {\color{red}getRunningTasks API in ActivityManager object}. A more detailed observation needs to request the "GET\_TASK" permission, which could somehow attract the attention of most of normal users. However, Android starts to constraint the usage of such permission request and the usage of related API from recent {\color{red}Android 5.0+} for the security consideration. The getRunningTasks and even getRunningAppProcess(the API for get all the running process in the device) are now deprecated and only return developer's own application process. {\color{red}A substitute solution is to request new "PACKAGE\_USAGE\_STATS" permission, and to disable warning that permission is system level and will not be granted to third-party apps. Again, this approach needs extra permission request. } A decent solving method to get the foreground running app without any permission request is introduced in  \cite{getforeground} through reading the /proc file where Linux preserves all its process information. For all, obtaining the foreground app is entirely a completable task in common Android system version. 
 
@@ -378,43 +377,39 @@ Another good news is that the usage of  "getRunningServices" are still available
 In addition, statically-registered BroadcastReceiver always in the receiving state when the app is running, so its component-state is also easy to ensure. On the other side, the component-state of dynamically-registered BroadcastReceiver follows the running state of its host component, e.g., activity and service, and the method where it is registered.
 
 
-\textbf{Display-sink}(d belongs to D). Display Sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display-sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
+\paragraph{Display-sink}
 
-As to the Display-sink, only those output vectors which can be leveraged by attackers are considered. Most of which are related to UI activity, causing the UI is designed as the main channel to interact with users. Some of the UI vectors are mentioned in recent research\cite{bianchi2015app}(e.g., startActivity API, Toast message), yet we also collect some other UI related vectors, e.g., AlertDialog.Builder API, NotificationManager API. Generally, both of Dialog frame and Notification need response from users(e.g., click) and then engage corresponding reaction functionalities. This process offers chance for attackers to interfere the users behaviours, which is insecure.
+(d belongs to D)Display Sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display-sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
 
-Besides, some non-UI vectors are also contained, e.g., audio, vibrate related API, sendBroadcast. Similar to UI related vectors, audio and vibrate related API also engage information output although as different information forms("voice and vibration"). The "SendBroadcast" is able to deliver information between different apps, breaking the constraint of sandbox. Therefore, the app that receives the broadcast could be operated by others.  
+As to the Display-sink, only those output vectors which can be leveraged by attackers are considered. Most of which are related to UI activity, causing the UI is designed as the main channel to interact with users. Some of the UI vectors are mentioned in recent research\cite{bianchi2015app}(e.g., startActivity API, Toast message), yet we also collect some other UI related vectors, e.g., AlertDialog.Builder API, NotificationManager API. Generally, both of Dialog and Notification need response from users(e.g., click) and then engage corresponding reaction functionalities, which offers chance for attackers to interfere the users behaviours, which is insecure.
 
+\textbf{Dialog}
+Generally speaking, it goes against Android design and UI guidelines that directly launching a Dialog from Service or BroadcastReceiver. Therefore, if Dialog is roughly created from a Service or BroadcastReceiver, there would pop up an error report causing Dialog is implemented relying on a particular Activity. However, it is pretty work that setting a system alert Dialog with the "SYSTEM\_ALERT\_WINDOW" permission grant. This kind of Dialog has global feature that can be invoked by a Service or a system event rather than an Activity. 
 
-1 for Dialog
+\textbf{Toast}
+In common case, the Toast is also constructed based on an existing Activity rather than Service or BroadcastReceiver. The reason of that is one of Toast.makeToast parameters refers to the main UI context the one belongs to. Therefore, directly popping up from Service or BroadcastReceiver would not work causing the UI context is erroneously referred. However, a common-used tool class "Handler" can be used to insert the self-defined thread message into the main thread queue, so that the main thread UI context can be obtained by the Toast. Therefore, Toast can be launched not only in Activity but also in Service and BroadcastReceiver.
 
-Generally speaking, it goes against Android design and UI guidelines that directly launching a Dialog from Service. Therefore, if AlertDialog is roughly created from a Service there would pop up an error report causing Dialog is implemented relying on a particular Activity. However, still it would pretty work that setting a system alert Dialog with the "SYSTEM\_ALERT\_WINDOW" permission grant. This kind of Dialog has global feature that can be invoked by a Service or a system event rather than an Activity. 
+\textbf{StartActivity}
+The startActivity is known to be invoked by all the three components. However, some Activity is set self-defined permission to improve the security protection. For those low risk "protectionLevel", namely "normal" and "dangerous", we can still apply corresponding self-defined permission to access the target components. Nevertheless, for those high risk level, namely "signature" and "signatureOrSystem", currently there is no any effect way to access the target components by a third party app.
 
-2 for Toast
-
-Similar to Dialog, the Toast, in general, also should be constructed based on an existing Activity. The reason of that is one of the parameters needed by Toast function refers to the main UI context the one belongs to. Therefore, directly popping up from Service would not work causing the UI context is erroneously referred. In principle, the communication between main thread and sub thread mainly relies on the message queue and message cycle in Android, which follows the communication mechanism in traditional Windows. In practice, a common-used tool class "Handler" can be used to insert the self-defined thread message into the main thread queue, so that the main thread UI context can be obtained by the Toast.
-
-3 for StartActivity
-
-Some Activity or Service is set self-defined permission to improve the security protection. For those low risk "protectionLevel", namely "normal" and "dangerous", we can still apply corresponding self-defined permission to access the target components. Nevertheless, for those high risk level, namely "signature" and "signatureOrSystem", currently there is no any effect way to access the target components by a third party app.
-
-4 for Notification
-
- ////// This kind of cases also need to be taken enough attentions in real attacks. 
+\textbf{Notification}
+The Notification can be launched by all the three components as well. Compare to Dialog and Toast, Notification is more likely used in service for notify the task progress or updated information. 
 
 
- \textbf{Event}(e belongs to E).  The event here refers to those can be observed by public. For example, normally user-click event does not belong to the set, causing it generally only can be preserved by local app components; other app is forbidden to obtain this event due to the isolation of sandbox.
 
-Following introduction aforementioned, Event here contains three categories.
+Besides UI sink, some non-UI vectors are also contained, e.g., audio, vibrate related API, sendBroadcast, startService. Similar to UI related vectors, audio and vibrate related API also engage information output although as different information forms("voice and vibration"). The "sendBroadcast" and "startService" is able to lead new callbacks, which threatens the targeted app in a iterative way. Additionally, implicit intent loaded by "sendBroadcast" and "startService" also can be leveraged by attackers.
 
-1. Those Events originated from system are loaded by either Broadcast or serviceManagers. For serviceManagers ones, they normally need corresponding low-risk permission request(e.g., "android.permission.BATTERY\_STATS", "android.permission.VIBRATE ") to manipulate the event information. However, system broadcast need not any permission, leading to more threats.
+\paragraph{Event}
 
-2. Those Events originated from other apps are loaded by implicit Intent or pendingIntent(contains implicit Intent). For explicit Intent, the destination is clearly defined as a typical app so that it is impossible for other app to obtain this kind of Intents. However, implicit Intent and pendingIntent could be sent to a set of apps so as long they match the Intent features.
+(e belongs to E) The event here refers to the public event since non-public one can hardly be exploited by other apps. As mentioned in section **, public events lie in all the three event categories(life-cycle, user-driven and system).
 
-3. Those Events originated from users are loaded by serviceManager. These events generally are equipped with global characteristics that impacts not only single app.  For example, user click event could only affect the activity that occupies focus; while sensor change event would impact all the apps installed. Some of serviceManagers like sensorManager,audioManager need not permission request.
 
-\textbf{Control Flow}(C). Control Flow is a collection of conditional values over the path from a typical State to a Final Sink. In theory, as for a callback threat vulnerable app, the "C" needs to guarantee an observable and feasible path that can reach the Display-sink. However, the "C" that strictly conforms above definition rarely emerges in real apps, so that we adopt a more flexible mechanism in practice which will be introduced in next section.  
 
-Attackers need to find a feasible path from the State to the Final Sink within the given operable source code of a target app. For judging the existing of such path, we first collect the condition set of the paths to the Final Sink. Then a signal used to refer to if it is visible for each value, event and function emerging in the condition set is created. To describe more clearly, we denote the following concepts:
+\paragraph{Control Flow}
+
+(C)Control Flow is a collection of conditional values over the path from a typical State to a Display-sink. In theory, as for a callback threat vulnerable app, the "C" needs to guarantee an observable and feasible path that can reach the Display-sink. However, the "C" that strictly conforms above definition rarely emerges in real apps, so that we adopt a more flexible mechanism in practice which will be introduced in next section.  
+
+Attackers need to find a feasible path from the State to the Display-sink within the given operable source code of a target app. For judging the existing of such path, we first collect the condition set of the paths to the Display-sink. Then a signal used to refer to if it is visible for each value, event and function emerging in the condition set is created. To describe more clearly, we denote the following concepts:
 
 1. c: the condition value of each branch.
 
@@ -465,7 +460,7 @@ A traditional technique for above computation is symbolic execution. However, it
   \toprule
   State & Display-sink & Event & Control Flow \\
   \midrule
- 1.Activity running state(Lauching page) & 1.startActivity & 1.Broadcast from system: \{Intent.ACTION\_BATTERY\_LOW\} & 1.branch or cycle condition analysis \\
+ 1.Activity running state(Launching page) & 1.startActivity & 1.Broadcast from system: \{Intent.ACTION\_BATTERY\_LOW\} & 1.branch or cycle condition analysis \\
   2. Service running state &2. Toast message & 2.Implicit Intent\& pendingIntent & 2.method invocation analysis\\
      & 3.AlertDialog. Builder & 3.ServiceManager(need not permission grant): { sensorManager, memoryManager }\\
      & 4.sendBroadcast (intent)& 4.ServiceManager(need permission grant): { batteryManager }\\     
@@ -516,36 +511,26 @@ The adversary is supposed having the capability of using public available resour
 %\texttt{{\char'134}table*}& 400& For wider tables\\ \hline\end{tabular}
 %\end{table}
 % end the environment with {table*}, NOTE not {table}!
-
-\subsection{Attack Overview}
-The PEC could be used to construct various types of attacks, including mainstream attack methods like spoofing, phishing, privilege lifting, etc. An adversary app could perform a customized response in terms of a targeted event. Moreover, a more complex attack would rely on the specific installed victim apps. By predicting the behaviours of such victim apps using PEC, the adversary app could engage appropriate attacks avoiding user's awareness.
-Base on whether utilizing victim apps, we divide attacks as two main categories.
-
-\subsection{Utilizing Public Events}
-\subsubsection{Spoofing}
-1. Adversary apps could be designed as a kind of spoofing pages, which would be popped up right after a particular event happens. The spoofing page content should be closely related to such event so that users have no doubt about it.
-\subsubsection{Phishing}
-
-\subsection{Utilizing Victim App}
-
-Following represents typical attacks forms that utilizes the PEC of victim app. According to the display window a PEC ends to, we representatively list four main types of attack examples, namely dialog \& toast privilege lifting, notification forgery, shaking-display spoofing and activity phishing. 
-\subsubsection{Dialog \& Toast Privilege Lifting}
-Dialog and Toast used to perform as the notice windows to notify users some intermediate results or alert information  after apps successfully receive events. Once the received events are open to public, an adversary app would be easy to predict the time when a dialog or toast really emerges as long as the targeted app lacks of complex condition constrains in its control flow of the key callbacks. A common case comes from the notice related to those system resources like battery, memory, voice, etc. Normally, these kinds of notices are sent by pre-installed or system manager apps. Also, users are with fully trust for these apps in security part because they are professional and have numerous of users. However, this trust acts as a big opportunity that can be exploited to achieve the attack goal in attacker's eyes.
-
-For example, when the memory rests as low as a given level, some system manager apps(360 mobilesafe, Battery Doctor, etc.) would pop up corresponding dialog with alarm information("Dear user, your device has little memory available, clean the data residue to achieve more free memory?"), and if user clicks agree button, a new process launched by the manager app starts running. Then the user could be at ease at the memory trouble.
-
-A typical implementation logic is represented as following:
-
 \begin{figure}
 \centering
 \includegraphics[width = 3.0in]{code1.png}
 \caption{\label{}control-flow}
 \end{figure}
 
+\subsection{Attack Overview}
+
+Following represents typical attacks forms that utilizes the PEC of victim app or PEC itself. According to the display-sink a PEC ends to, we representatively list several main types of attack examples, namely dialog \& toast privilege escalation, notification forgery, shaking-display spoofing and activity phishing. Meanwhile, we also introduce other possible attack types.
+\subsection{Dialog \& Toast Privilege Escalation}
+Dialog and Toast used to perform as the notice windows to notify users some intermediate results or alert information  after apps successfully receive events. Once the received events are open to public, an adversary app would be easy to predict the time when a dialog or toast really emerges as long as the targeted app lacks of complex condition constrains in its control flow of the key callbacks. A common case comes from the notice related to those system resources like battery, memory, voice, etc. Normally, these kinds of notices are sent by pre-installed or system manager apps. Also, users are with fully trust for these apps in security part because they are professional and have numerous of users. However, this trust acts as a big opportunity that can be exploited to achieve the attack goal in attacker's eyes.
+
+For example, when the memory rests as low as a given level, some system manager apps(360 mobilesafe, Battery Doctor, etc.) would pop up corresponding dialog with alarm information("Dear user, your device has little memory available, clean the data residue to achieve more free memory?"), and if user clicks agree button, a new process launched by the manager app starts running. Then the user could be at ease at the memory trouble.
+
+A typical implementation logic is represented as following:
+
 The key point is the memory status(info.availMem) are public resources and can be obtained by any app installed in the device without any permission request. Moreover, the implementation control flow is designed so simple that 
 the condition logic and variable "threshold" could be easily reconstructed in an adversary app. A experienced attacker could also obtain the these key logic and variables through reverse-engineering and binary analysis. As a result, the condition "info.availMem < threshold" as a public events makes the function "AlertDialog.create()" a PEC, and attackers are able to judge the creating time of the AlerDialog from its own reconstructed adversary app installed in the same device.
 
-This time capture offers a rich variety of opportunities to engage attacks escaping user's notice, of which a typical one is privilege lifting. Figure * presents an attack procedure for an attacker getting the "Accessibility Service" grant by user. The Accessibility Service is a special functionality offered to help disabled people to get the component status and handle the device operations more conveniently. Since Android 4.0, it supports richer interfaces for developers implementing their Accessibility functionalities like listening user actions. Undoubtedly, this functionality is so powerful that it is impossible to be ignored by attackers. However, all the implementations have to be engaged under the prerequisite that user needs to open the Accessibility Service in setting options for a specific app. It seems infeasible for attackers to get the grant directly. After all, it performs very suspicious if such a setting window suddenly opens on the foreground against user's intention.
+This time capture offers a rich variety of opportunities to engage attacks escaping user's notice, of which a typical one is privilege escalation. Figure * presents an attack procedure for an attacker getting the "Accessibility Service" grant by user. The Accessibility Service is a special functionality offered to help disabled people to get the component status and handle the device operations more conveniently. Since Android 4.0, it supports richer interfaces for developers implementing their Accessibility functionalities like listening user actions. Undoubtedly, this functionality is so powerful that it is impossible to be ignored by attackers. However, all the implementations have to be engaged under the prerequisite that user needs to open the Accessibility Service in setting options for a specific app. It seems infeasible for attackers to get the grant directly. After all, it performs very suspicious if such a setting window suddenly opens on the foreground against user's intention.
 
 By exploiting the PEC of such a trusted app, all the attack procedure would become more reasonable. First, the adversary app opens a service on the background to monitor if the PEC service is running through the getRunningServices() offered by the ActivityManager. Fortunately, the invoking of getRunningServices() needs not any permission request and has not been constrained like the getRunningTasks()(mentioned in Section *) so far. Then, the adversary app construct the same logic as trusted app to wait for the time when the available memory size falls below the given threshold. Once it happens, the adversary app would predict the notice dialog will pop up in a few seconds. After that, it shows a toast tip to tell user the corresponding Accessibility Service have to be grant to complete the data clean task, and then opens the Accessibility Service setting page using "Setting.ACTION\_ACCESSIBILITY\_SETTINGS" intent like Figure *(b) did. In the setting page, an attack service with a confused name "360 Data Clean" makes user fool about this attack. At last, the adversary app gets the grant and could engage further attacks. 
 
@@ -556,7 +541,7 @@ Adversary apps also could utilize the callback logic within other apps. This is 
 
 The display logic is located in the activity life-cycle function OnDestroy() which could be observed by adversary app outside. 
 
-\subsubsection{Notification Forgery}
+\subsection{Notification Forgery}
 From perspective of practise, the Notification works for showing the received message, notifying the updated information and representing the progress of running tasks, which is somehow similar as Dialog or Toast. Different from the Dialog, it is not necessary to handle a Notification immediately. Again, a Notification would not disappear in seconds as the Toast does until user handles it. The user could handle it at any time they like, which gives attackers enough time to forge a fake one escaping user's attention. Here we introduce two common used situations. 
 
 1. Push mechanism. Most of the market apps currently are based on CS(Client-Server) design, and the server needs to frequently push the updated data or content to the client in user's device. The client keeps running a service in the background receiving the update from server. Normally, this push-receive mechanism is implemented by specialized module with high-level security protection that makes it hard to get any status from the push process by other apps. However, causing the status of client service for receiving is publicly opened, attacker also could exploit it to fool the user in an indirect way. For example,the popular social app Google+ frequently uses the Notification to notify users to check its updated backup data, with two services PendingIntentCallbackService and DispatchingService running on the background. The status of these services could be easily observed by a third-party adversary app. Further more, the attacker has already analysed these services control flow off-line and found they connect to the Notification display. A fake Notification would be constructed using the same resources and framework as original Google+ did. The difference is the fake Notification are connected to a carefully constructed "Google login" page that needs user input their Google account. When the user open the Notification panel, there are several very similar Notifications listing there. If the user chooses the fake one and tries to log in the Google account, unfortunately, the username and password will be delivered to attacker.
@@ -565,16 +550,16 @@ From perspective of practise, the Notification works for showing the received me
 
 Notification forgery. Figure * represents a notification forgery example. 
 
-\subsubsection{Shaking-display Spoofing}
+\subsection{Shaking-display Spoofing}
 Shaking-display refers to the display(Dialog, Toast, Notification and Activity) led by a shaking action. A typical case comes from the motivation example we introduced in section 3.1**. The shaking action could be captured by the sensor in-set in the device. App developers normally use the sensorManager listener and its corresponding callbacks onSensorChanged() and onAccuracyChanged() to listen and handle the shaking action. Normally, the value of SensorEvent(parameter type of sensor callbacks) should be large enough to avoid the misrecognition of unexpected action without user's participating.
 
 The shaking-display spoofing attack is based on the assumption that the shaking action always aims at the foreground activity. Since the shaking action always fits user's intention and in general cases, users only concern the foreground activity, the assumption is reasonable.
 
-Consider the motivating example the YaoYiYao page pops up under two basic conditions. One is the WeChat is running on the foreground, and the other is shaking action event happens. As the assumption mentioned before, here we don't consider extreme situation that a device shaking happens accidentally in other page like the chatting page or setting page. Fortunately, both of the two conditions could be observed by public even without any of the permission request. 
+Consider the motivating example the Shake page pops up under two basic conditions. One is the WeChat is running on the foreground, and the other is shaking action event happens. As the assumption mentioned before, here we don't consider extreme situation that a device shaking happens accidentally in other page like the chatting page or setting page. Fortunately, both of the two conditions could be observed by public even without any of the permission request. 
 
 Then let's consider another shaking-display spoofing example with the targeted app named "Digital Vulture". This app implements a novel usage that users could conveniently open the camera only needing slightly shaking the device several times. As analysis before, the handling function for responding the shaking event acts as a PEC. Therefore, an adversary app could capture when the camera is popped up by "Digital Vulture". At that time, a fake camera is launched by the adversary background service and covers on the face of original benign camera. The user is hard to distinguish the two camera surfaces and he/she is very likely to choose the fake one because it is on the foreground. Then adversary could stealthily deliver the picture to the web or store it in a secret location for other usage. The entire attack procedure is hard perceived by user. The only challenge that the adversary app has to overcome is to request the  "android.permission.CAMERA" permission. After all, the camera permission is not as sensitive as location or phone status for a user, so it is not hard for an attacker to get this non-sensitive permission.
 
-\subsubsection{Activity Phishing}
+\subsection{Activity Phishing}
 Activity Phishing represents a more direct way to conduct the attack by the PEC. A traditional common used public event is the launching event of targeted app whose MainActivity contains private information input, e.g. login page and sign up page. An background adversary service keeps monitoring if the targeted app process begins running. Once the targeted page is launched, a forgery page with the same outlook would cover on the top surface and phish user's private data.
 
 Here, we introduce a more complex PEC example related to implicit Intent. The implicit Intent is known as a bridge to connect another component without specifying a single receiver. Instead, it limits a range of receivers through making a operation statement including the intent data and the intended action. If an app sends an implicit Intent request and there are more than one apps fitting the Intent statement, the Android system would pop up a system dialog listing all the fitting apps. Then the user could choose one of them to handle the Intent data.
@@ -583,10 +568,12 @@ There exists a series of iterative PECs threats within the implicit Intent proce
 
 As the analysis before, the running status of foreground app acts as a public event, so that the intent sender("com.tencent.mm" in this example) could be observed by an adversary app. Actually, the event that pops up the intent receiver QQ is also a public event and could be observed. Moreover, when the system dialog emerges for listing the receivers, the foreground process infers to the system dialog and the observable process name changes to "system:ui", which indicates the system dialog emerging is a public event as well. Therefore, there exists a PEC chain that contains sender app process, system dialog process and receiver process in sequence. By capturing the PEC chain, the adversary app could predict the emerging time of QQ login page and cover a phishing login page on the authentic one. Consequently, the adversary app could successfully bypass the unrelated pages(e.g., introduction page) and phish the login user name and password in an accurate way.
 
-\subsubsection{Other Attacks}
-The attacks discussed before are just typical attack types. There are still other attacks could be conducted using the PEC features. For instance, the Notification PEC also could be used to conduct the privilege lifting, only needing a reasonable spoofing page emerging when the user clicks the Notification icon. Again, shaking action could also be used to do phishing if the display is a sensitive login page. In addition, attackers even could try more flagrant attack forms, like ransoming user's critical data and ask for something they are interested for. To achieve this goal, attackers need to design a mal-block and pop it up once the targeted PEC happens. Actually, the attack is designed relying on the PEC type contained by victim app. Table ** list the possible associations of attack and the PEC.
+\subsection{Other Attacks}
+The attacks discussed before are just typical attack types. There are still other attacks could be conducted using the PEC features. For instance, the Notification PEC also could be used to conduct the privilege escalation, only needing a reasonable spoofing page emerging when the user clicks the Notification icon. Again, shaking action could also be used to do phishing if the display is a sensitive login page. In addition, attackers even could try more flagrant attack forms, like ransoming user's critical data and ask for something they are interested for. To achieve this goal, attackers need to design a mal-block and pop it up once the targeted PEC happens. Actually, the attack is designed relying on the PEC type contained by victim app.
 
-\# From this perspective, the PEC indeed exists inevitable risk for normal apps.
+Another typical type of attacks follows a more direct and traditional way that utilizing PEC itself rather than a victim app. An adversary app could perform a customized response in terms of a targeted event. For example, adversary apps could be designed as a kind of spoofing pages, which would be popped up right after a particular event happens. The spoofing page content should be closely related to such event so that users have no doubt about it. Another example is to craft a fake phishing page for login that will pop up when the real app opens(the launching page is such a login page).
+
+Table ** lists the possible associations of attack and the PEC.
 
 
 \section{Detection and Evaluation}
