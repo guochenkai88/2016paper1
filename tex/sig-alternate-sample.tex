@@ -379,7 +379,7 @@ In addition, statically-registered BroadcastReceiver always in the receiving sta
 
 \paragraph{Display-sink}
 
-(d belongs to D)Display Sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display-sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
+(d belongs to D)Display-sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display-sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
 
 As to the Display-sink, only those output vectors which can be leveraged by attackers are considered. Most of which are related to UI activity, causing the UI is designed as the main channel to interact with users. Some of the UI vectors are mentioned in recent research\cite{bianchi2015app}(e.g., startActivity API, Toast message), yet we also collect some other UI related vectors, e.g., AlertDialog.Builder API, NotificationManager API. Generally, both of Dialog and Notification need response from users(e.g., click) and then engage corresponding reaction functionalities, which offers chance for attackers to interfere the users behaviours, which is insecure.
 
@@ -402,8 +402,6 @@ Besides UI sink, some non-UI vectors are also contained, e.g., audio, vibrate re
 \paragraph{Event}
 
 (e belongs to E) The event here refers to the public event since non-public one can hardly be exploited by other apps. As mentioned in section **, public events lie in all the three event categories(life-cycle, user-driven and system).
-
-
 
 \paragraph{Control Flow}
 
@@ -429,25 +427,23 @@ A traditional technique for above computation is symbolic execution. However, it
 
 
 
-\begin{figure}[t]
-\centering
-\includegraphics[width = 3.0in]{control-flow.png}
-\caption{\label{}control-flow}
-\end{figure}
-
-
-
-\begin{figure}
-\centering
-\includegraphics[width = 3.0in]{principle0.png}
-\caption{\label{} principle0}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width = 3.0in]{principle.png}
-\caption{\label{}principle1}
-\end{figure}
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width = 3.0in]{control-flow.png}
+%\caption{\label{}control-flow}
+%\end{figure}
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width = 3.0in]{principle0.png}
+%\caption{\label{} principle0}
+%\end{figure}
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width = 3.0in]{principle.png}
+%\caption{\label{}principle1}
+%\end{figure}
 
 
 
@@ -511,13 +507,33 @@ The adversary is supposed having the capability of using public available resour
 %\texttt{{\char'134}table*}& 400& For wider tables\\ \hline\end{tabular}
 %\end{table}
 % end the environment with {table*}, NOTE not {table}!
-\begin{figure}
-\centering
-\includegraphics[width = 3.0in]{code1.png}
-\caption{\label{}control-flow}
-\end{figure}
+
 
 \subsection{Attack Overview}
+
+\begin{figure}
+\centering
+\includegraphics[width = 3.0in]{pic2.png}
+\caption{\label{}Example of Dialog Escalation with PEC threats}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width = 3.0in]{pic3.png}
+\caption{\label{}Example of Notification Forgery with PEC threats}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width = 3.0in]{pic4.png}
+\caption{\label{}Example of Shaking Spoofing with PEC threats}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width = 3.0in]{pic5.png}
+\caption{\label{}Example of Activity Phishing with PEC threats}
+\end{figure}
 
 Following represents typical attacks forms that utilizes the PEC of victim app or PEC itself. According to the display-sink a PEC ends to, we representatively list several main types of attack examples, namely dialog \& toast privilege escalation, notification forgery, shaking-display spoofing and activity phishing. Meanwhile, we also introduce other possible attack types.
 \subsection{Dialog \& Toast Privilege Escalation}
@@ -526,11 +542,16 @@ Dialog and Toast used to perform as the notice windows to notify users some inte
 For example, when the memory rests as low as a given level, some system manager apps(360 mobilesafe, Battery Doctor, etc.) would pop up corresponding dialog with alarm information("Dear user, your device has little memory available, clean the data residue to achieve more free memory?"), and if user clicks agree button, a new process launched by the manager app starts running. Then the user could be at ease at the memory trouble.
 
 A typical implementation logic is represented as following:
+\begin{figure}
+\centering
+\includegraphics[width = 3.0in]{code1.png}
+\caption{\label{}control-flow}
+\end{figure}
 
 The key point is the memory status(info.availMem) are public resources and can be obtained by any app installed in the device without any permission request. Moreover, the implementation control flow is designed so simple that 
 the condition logic and variable "threshold" could be easily reconstructed in an adversary app. A experienced attacker could also obtain the these key logic and variables through reverse-engineering and binary analysis. As a result, the condition "info.availMem < threshold" as a public events makes the function "AlertDialog.create()" a PEC, and attackers are able to judge the creating time of the AlerDialog from its own reconstructed adversary app installed in the same device.
 
-This time capture offers a rich variety of opportunities to engage attacks escaping user's notice, of which a typical one is privilege escalation. Figure * presents an attack procedure for an attacker getting the "Accessibility Service" grant by user. The Accessibility Service is a special functionality offered to help disabled people to get the component status and handle the device operations more conveniently. Since Android 4.0, it supports richer interfaces for developers implementing their Accessibility functionalities like listening user actions. Undoubtedly, this functionality is so powerful that it is impossible to be ignored by attackers. However, all the implementations have to be engaged under the prerequisite that user needs to open the Accessibility Service in setting options for a specific app. It seems infeasible for attackers to get the grant directly. After all, it performs very suspicious if such a setting window suddenly opens on the foreground against user's intention.
+This time capture action offers a rich variety of opportunities to engage attacks escaping user's notice, of which a typical one is privilege escalation. Figure * presents an attack procedure for an attacker getting the "Accessibility Service" grant from user. The Accessibility Service is a special functionality offered to help disabled people to get the component status and handle the device operations more conveniently. Since Android 4.0, it supports richer interfaces for developers implementing their Accessibility functionalities like listening user actions. Undoubtedly, this functionality is so powerful that it is impossible to be ignored by attackers. However, all the implementations have to be engaged under the prerequisite that user needs to open the Accessibility Service in setting options for a specific app. It seems infeasible for attackers to get the grant directly. After all, it performs very suspicious if such a setting window suddenly opens on the foreground against user's intention.
 
 By exploiting the PEC of such a trusted app, all the attack procedure would become more reasonable. First, the adversary app opens a service on the background to monitor if the PEC service is running through the getRunningServices() offered by the ActivityManager. Fortunately, the invoking of getRunningServices() needs not any permission request and has not been constrained like the getRunningTasks()(mentioned in Section *) so far. Then, the adversary app construct the same logic as trusted app to wait for the time when the available memory size falls below the given threshold. Once it happens, the adversary app would predict the notice dialog will pop up in a few seconds. After that, it shows a toast tip to tell user the corresponding Accessibility Service have to be grant to complete the data clean task, and then opens the Accessibility Service setting page using "Setting.ACTION\_ACCESSIBILITY\_SETTINGS" intent like Figure *(b) did. In the setting page, an attack service with a confused name "360 Data Clean" makes user fool about this attack. At last, the adversary app gets the grant and could engage further attacks. 
 
