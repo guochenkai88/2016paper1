@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.3.17)  13 MAY 2016 21:19
+This is XeTeX, Version 3.14159265-2.6-0.99992 (MiKTeX 2.9 64-bit) (preloaded format=xelatex 2016.3.17)  14 MAY 2016 15:01
 entering extended mode
 **sig-alternate-sample.tex
 (sig-alternate-sample.tex
@@ -285,7 +285,19 @@ Package: array 2014/10/28 v2.4c Tabular extension package (FMi)
 LaTeX Warning: Label `' multiply defined.
 
 
+LaTeX Warning: Label `' multiply defined.
+
+
 LaTeX Warning: Label `tab:test' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
 
 )
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 56.
@@ -509,38 +521,56 @@ File: pic5.png Graphic file (type QTm)
 File: code1.png Graphic file (type QTm)
 
 <use  "code1.png" > [6]
-Underfull \vbox (badness 2828) has occurred while \output is active []
-
- [7]
-Underfull \vbox (badness 1558) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [8]
-Overfull \hbox (37.39082pt too wide) in paragraph at lines 590--591
-\T1/aer/m/n/9 app acts as a pub-lic event, so that the in-tent sender("com.tenc
-ent.mm"
+Overfull \hbox (66.43616pt too wide) in paragraph at lines 556--557
+\T1/aer/m/n/9 Ser-vice set-ting page us-ing "Set-ting.ACTION_ACCESSIBILITY_SETT
+INGS"
  []
 
 
-Overfull \hbox (3.78488pt too wide) in paragraph at lines 609--610
+Underfull \vbox (badness 2828) has occurred while \output is active []
+
+ [7]
+Overfull \hbox (7.61209pt too wide) in paragraph at lines 566--567
+\T1/aer/m/n/9 getRun-ningApp-Pro-cesses()(offered by Ac-tiv-i-ty-Man-ager) func
+-
+ []
+
+
+Underfull \vbox (badness 1558) has occurred while \output is active []
+
+ [8]
+Overfull \hbox (38.20073pt too wide) in paragraph at lines 585--586
+\T1/aer/m/n/9 app acts as a pub-lic event, so that the in-tent sender("com.flay
+vr.flayvr"
+ []
+
+
+Overfull \hbox (71.41916pt too wide) in paragraph at lines 585--586
+\T1/aer/m/n/9 tu-ally, the event that pops up the in-tent re-ceiver QQ("com.ten
+cent.minihd.qq")
+ []
+
+
+Underfull \vbox (badness 1558) has occurred while \output is active []
+
+
+Overfull \hbox (3.78488pt too wide) in paragraph at lines 604--605
 []\T1/aer/m/n/9 Then, the CS-Droid would rec-og-nize the PEC vec-tors within
  []
 
 [9]
-Overfull \hbox (7.41432pt too wide) in paragraph at lines 645--647
+Overfull \hbox (7.41432pt too wide) in paragraph at lines 640--642
 []\T1/aer/m/n/9 Android Event-driven Anal-y-sis Based on event-driven mech-
  []
 
 
-Overfull \hbox (23.00156pt too wide) in paragraph at lines 648--653
+Overfull \hbox (23.00156pt too wide) in paragraph at lines 643--648
 \T1/aer/m/n/9 cussed in [33][5][1][26][17][34][24]. Again,in the work of [29][3
 8][28],
  []
 
 [10]
-Overfull \hbox (5.26138pt too wide) in paragraph at lines 654--659
+Overfull \hbox (5.26138pt too wide) in paragraph at lines 649--654
 \T1/aer/m/n/9 cern-ing on An-droid sys-tem, pri-vacy data leak-age in-curs wide
 ly
  []
