@@ -358,7 +358,7 @@ Android framework provides a variety of callback functions for developers conduc
 
 \begin{figure*}[t]
 \centering
-\scalebox{1}[0.8]{\includegraphics{pic1.pdf}}
+\scalebox{1}[0.8]{\includegraphics{pic1.png}}
 \caption{\label{} Motivating example about the PEC threats. In (a), a user prepare to try the "Shake"; (b) shows a normal case that a real result popped up after shake; (c) presents the further information of such real page after user clicks the result; (d) shows the case that the shake action is perceived by an adversary app, which pop up a fake "result" page after it receives the shake action; (e) presents the further fake information crafted by attacker, which is used to induce user to convince it.}
 \end{figure*}
 
@@ -710,6 +710,8 @@ Another important complement for dynamic approach relies on static analysis\cite
 
 
 \section{Conclusions}
+
+In this paper, we first presented a systematically investigation about PEC, a potential threats against ordinary Android app security. We discovered typical PEC vectors that can lead to a sort of severe attacks called event hijacking. Most of the proof-of-concept attacks indicate the event hijacking is quite feasible by exploiting the PEC. For automatically identifying the PEC threats, we developed a static analyser CSDroid. We analysed the PEC threats in common-used about 2400 apps within Google Play using CSDroid. According to the analysis results, the PEC threats are proven to be widely existing in the open Android ecosystem.
 
 %of the reference to the \LaTeX\ book, the citations in
 %this paper are to articles which have nothing to
