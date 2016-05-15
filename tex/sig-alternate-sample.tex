@@ -268,8 +268,8 @@ There are a variety of events that can trigger certain callback APIs provided by
 
 However, not all the cases emerge so ideally. There still exists a large spectrum of public events that can trigger the execution of callbacks from different components and even different apps. We call this kind of trigger events PE(public events) and corresponding callbacks PECs(public event callbacks). Examples of PE include system event, implicit intent, service running status, etc. The PE offers the same trigger source to callback executions from different apps. Such characteristic contains potential threats that an evil app can sniff the execution time of specific callback within a victim app, so long as an understanding about the victim's program logic has been prepared. We consider the PEC as a severe threats for it offers an accurate way to predict the execution timing, which is widely exploited by existing UI attacks\cite{chen2014peeking}\cite{bianchi2015app}\cite{ren2015towards}. A typical PEC case is about the "Shake" module of the popular app Wechat. In the "Shake" scene, a random online friend is recommended after the user slightly shake(acts as the PE) the device. However, an adversary app running on the background can also capture the shake action, so that it can judge the timing of certain foreground display in the Wechat. Further, the adversary app is able to craft attacks like phishing and spoofing exploiting the judgement to the foreground. The PEC is insensitive on surface but offers attack materials for other apps with evil purpose. To the end, such threats can evolve into various types of attacks that we will present in a great detail in section 4.
 
-Besides, the events from system, other apps or life-cycle have similar callback responding mechanism. 
-Such event-driven and callback mechanism make a huge challenge on analysis of certain applications installed in Android. 
+%Besides, the events from system, other apps or life-cycle have similar callback responding mechanism. 
+%Such event-driven and callback mechanism make a huge challenge on analysis of certain applications installed in Android. 
 
 To the best of our knowledge, there has not a previous work exclusively focusing on analysing and tackling the issues arising by the PEC threats. In this paper, we first engage a comprehensive analysis and a large scale of market apps survey about the PEC. Fortunately, Android ecosystem provider a relatively open environment allowing one to make a pre-analysis of a targeted app off-line. Such feature makes it possible to identify the potential victim apps suffering from the PEC threats. Nonetheless, the identification to the PEC within a certain app should overcome two main challenges. One is that attackers have to obtain materials of targeted apps on the code level overcoming the code confusion. The other one is to detect out at least one feasible inferring path across numerous control flow paths within the targeted app. Such path should contain a callback function that can be invoked by an exposed public event and a display-sink(e.g., startActivity or Toast.makeText) point with exposure features. For all, it is entirely possible to identify a victim for a wily attacker. 
 
@@ -287,7 +287,7 @@ To summarize, the main contribution of this paper are:
  
 2. By a set of corresponding proof-of-concept attacks, we validate the feasibility of such PEC exploitation and illustrate the severity of such threats. 
 
-3. We introduce a tool implemented to automatically detect the PEC threats within targeted apps. By our study, a wide range of apps are affected by this kind of PEC attacks.
+3. We introduce a tool implemented to automatically detect the PEC threats within targeted apps. By our study, a wide range of apps are affected by PEC attacks.
 
 4. We provide a mitigation strategy to the PEC threats, under which a more security callback invoking mechanism can be established.
 
@@ -358,7 +358,7 @@ Android framework provides a variety of callback functions for developers conduc
 
 \begin{figure*}[t]
 \centering
-\scalebox{1}[0.8]{\includegraphics{pic1.png}}
+\scalebox{1}[0.8]{\includegraphics{pic1.pdf}}
 \caption{\label{} Motivating example about the PEC threats. In (a), a user prepare to try the "Shake"; (b) shows a normal case that a real result popped up after shake; (c) presents the further information of such real page after user clicks the result; (d) shows the case that the shake action is perceived by an adversary app, which pop up a fake "result" page after it receives the shake action; (e) presents the further fake information crafted by attacker, which is used to induce user to convince it.}
 \end{figure*}
 
@@ -600,7 +600,15 @@ Table ** lists the possible associations of attack and the PEC.
 
 \section{Detection and Evaluation}
 This section we first analyse the detection details for the PEC and then provider an evaluation on a large scale of market apps.
-\subsection{The PEC Detection}
+\subsection{Methodology}
+
+
+
+\begin{figure*}[t]
+\centering
+\scalebox{1}[0.8]{\includegraphics{detection_flow.pdf}}
+\caption{\label{} Methodology of PEC threats detection}
+\end{figure*}
 
 To measure the PEC threats in real world apps, we designed a prototype tool CSDroid for detecting and analysing the PEC contained by market apps, which is implemented with 4k lines python code and based on the static analysing framework Androguard\cite{desnos2013androguard}. 
 
@@ -626,7 +634,35 @@ Compared to the permission API problem, CSDroid just easily build a whitelist to
 \# handling of inner class  
 
 \subsection{Market-scale Study}
-Our analysis is targeted on 2,723 real-world apps crawled by Google Play in 2016, covering all the 27 categories. The final detection results are listed in Table **.
+
+Our analysis is targeted on 2,723 real-world apps crawled by Google Play in 2016, covering all the 27 categories. The final detection results are listed in Table **. 
+
+\begin{table*}[htbp]
+\centering
+ \caption{\label{tab:test} Evaluation of PEC threats in practise}
+ %\begin{tabular}{lcll}
+ \begin{tabularx}{\linewidth}{XXXXX}
+
+  \toprule
+  PEC class  & Activity & Service & BroadcastReceiver & inner class \\
+  \midrule
+ Num & 12088(89\%) & 6024(89\%) & 1823(89\%) & 2343(89\%) \\
+ Threats  & 2309(89\%) & 3022(89\%) & 1290(89\%) & 1209(89\%)\\ 
+ iThreats  & 231(89\%) & 234 (89\%)& 231(89\%) & 234(89\%)\\
+ Avg per app & 1 & 2.2 & 0.2 & 0.8\\
+ \bottomrule
+ 
+ \toprule
+ Display-sink & startActivity & Notification & Dialog & Toast \\ 
+ \midrule   
+ Num & 232(89\%) & 534(89\%) & 4334(89\%) & 423(89\%)\\
+ Threats & 3242(89\%) & 632(89\%) & 342 (89\%)& 342(89\%)\\
+ iThreats & 3244(89\%) & 753(89\%) & 321 (89\%)& 423(89\%)\\
+ Avg per app & 1 & 2.2 & 0.2 & 0.8\\
+     
+  \bottomrule
+ \end{tabularx}
+\end{table*}
 
 
 \subsection{Vulnerability Discuss}
