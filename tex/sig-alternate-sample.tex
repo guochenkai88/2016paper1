@@ -318,11 +318,15 @@ The trigger-events originated by different sources are equipped with different t
   Categories & Event & Callback & Permission & Public \\
   \midrule
   life-cycle & app starting & onCreate/onStart(launching activity); statical broadcast receiver & N/A & Y\\
-             & activity losing focus & onPause & N/A & N\\
+  			 & app starting & onCreate/onStart(launching activity); statical broadcast receiver & N/A & Y\\                      
              & service starting & onCreate/onBind & N/A & Y\\
+             & service starting & onCreate/onBind & N/A & Y\\
+             
+             & activity losing focus & onPause & N/A & N\\
              
   user-driven & clicking button & onClick & N/A & N\\
               & shaking & onSensorChanged & N/A & Y\\
+              & 
               
   system  & Intent.ACTION\_BATTERY\_LOW & onReceive & N/A & Y \\
           & Intent.ACTION\_BOOT\_COMPLETED & onReceive & RECEIVE\_BOOT\_COMPLETED & Y \\
@@ -369,12 +373,18 @@ Although harmony in surface, there exists potential crisis in the user shaking a
 It seems that the PEC threats is easily ignored by developers and app markets. We see the callback time leakage severely because it offers a big change for attackers. A wily attacker could devise diverse attacks utilizing the PEC threats. For instants, attackers could deliberately construct a similar result page that links to a malicious third-party chatting tool, or even mimic a fake chatting page to pretend to chat with user for malicious purpose. We presents greater details about the attacks in section **.
 
 \subsection{PEC Model} 
+\begin{figure*}[t]
+\centering
+\scalebox{0.8}[0.6]{\includegraphics{principle.pdf}}
+\caption{\label{} Architecture of PEC threats}
+\end{figure*}
 
-In order to clearly illustrate the callback threats, we view the threats process as a kind of callback state model. Each PEC within a installed app can be described as (S,D,E,C), where "S" denotes current state of app, which can be observed by other apps; "D" denotes the display-sink contained by the callback function; "E" denotes the event that invokes executing of the callback function; "C" denotes the proper control flow conditional values towards the "F".
+
+%In order to clearly illustrate the callback threats, we view the threats process as a kind of callback state model. Each PEC within a installed app can be described as (S,D,E,C), where "S" denotes current state of app, which can be observed by other apps; "D" denotes the display-sink contained by the callback function; "E" denotes the event that invokes executing of the callback function; "C" denotes the proper control flow conditional values towards the "F".
 
 \paragraph{Component-state}
 
-(s belongs to S)The component-state refers to if the components of an app are running, which provides basic materials to PEC. Similar to the Event, the component-state here also needs to be exposed to other apps.
+The component-state refers to if the components of an app are running, which provides basic materials to PEC. Similar to the Event, the component-state here also needs to be exposed to other apps.
 
 Before {\color{red}Android 5.0} emerging, the execution state of component like Activity and Service can be easily observed by the {\color{red}getRunningTasks API in ActivityManager object}. A more detailed observation needs to request the "GET\_TASK" permission, which could somehow attract the attention of most of normal users. However, Android starts to constraint the usage of such permission request and the usage of related API from recent {\color{red}Android 5.0+} for the security consideration. The getRunningTasks and even getRunningAppProcess(the API for get all the running process in the device) are now deprecated and only return developer's own application process. {\color{red}A substitute solution is to request new "PACKAGE\_USAGE\_STATS" permission, and to disable warning that permission is system level and will not be granted to third-party apps. Again, this approach needs extra permission request. } A decent solving method to get the foreground running app without any permission request is introduced in  \cite{getforeground} through reading the /proc file where Linux preserves all its process information. For all, obtaining the foreground app is entirely a completable task in common Android system version. 
 
@@ -385,7 +395,7 @@ In addition, statically-registered BroadcastReceiver always in the receiving sta
 
 \paragraph{Display-sink}
 
-(d belongs to D)Display-sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display-sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
+Display-sink is based on the conception of leakage detection, which refers to a set of label functions that can expose data or information to outside. However, different from traditional conception, Display-sink here specifically refers to state output that could be perceived by users rather than information leakage, including UI page, dialog or notification, etc.
 
 As to the Display-sink, only those output vectors which can be leveraged by attackers are considered. Most of which are related to UI activity, causing the UI is designed as the main channel to interact with users. Some of the UI vectors are mentioned in recent research\cite{bianchi2015app}(e.g., startActivity API, Toast message), yet we also collect some other UI related vectors, e.g., AlertDialog.Builder API, NotificationManager API. Generally, both of Dialog and Notification need response from users(e.g., click) and then engage corresponding reaction functionalities, which offers chance for attackers to interfere the users behaviours, which is insecure.
 
@@ -407,11 +417,11 @@ Besides UI sink, some non-UI vectors are also contained, e.g., audio, vibrate re
 
 \paragraph{Event}
 
-(e belongs to E) The event here refers to the public event since non-public one can hardly be exploited by other apps. As mentioned in section **, public events lie in all the three event categories(life-cycle, user-driven and system).
+The event here refers to the public event since non-public one can hardly be exploited by other apps. As mentioned in section **, public events lie in all the three event categories(life-cycle, user-driven and system).
 
 \paragraph{Control Flow}
 
-(C)Control Flow is a collection of conditional values over the path from a typical State to a Display-sink. In theory, as for a callback threat vulnerable app, the "C" needs to guarantee an observable and feasible path that can reach the Display-sink. However, the "C" that strictly conforms above definition rarely emerges in real apps, so that we adopt a more flexible mechanism in practice which will be introduced in next section.  
+Control Flow is a collection of conditional values over the path from a typical State to a Display-sink. In theory, as for a callback threat vulnerable app, Control Flow needs to guarantee an observable and feasible path that can reach the Display-sink. However, the Control Flow that strictly conforms above definition rarely emerges in real apps, so that we adopt a more flexible mechanism in practice which will be introduced in next section.  
 
 Attackers need to find a feasible path from the State to the Display-sink within the given operable source code of a target app. For judging the existing of such path, we first collect the condition set of the paths to the Display-sink. Then a signal used to refer to if it is visible for each value, event and function emerging in the condition set is created. To describe more clearly, we denote the following concepts:
 
@@ -478,11 +488,11 @@ A traditional technique for above computation is symbolic execution. However, it
 
 {\color{red}Table 2} lists the main vulnerability vectors with the callback threats. 
 
-\section{Attack}
+\section{Attacks}
 
-\subsection{Exploiting Condition}
-\paragraph{App Description}
-\paragraph{Timer}
+%\subsection{Exploiting Condition}
+%\paragraph{App Description}
+%\paragraph{Timer}
 
 \subsection{Threat Model}
 In order to clearly illustrate the attack process, first the threat model need to be depicted.
