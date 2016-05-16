@@ -18,7 +18,7 @@ each app is executed within a isolated sandbox.
 This sandbox mechanism, as stated in the Android documentation\footnote{http://developer.android.com/training/articles/security-tips.html}, aims to \emph{``isolate(s) your app data and code execution from other apps''}. 
 This vague statement seems to imply that the sandbox mechanism 
 provides an app with confidentiality and integrity protection over both of its data and control.  
-However, what is demonstrated by related work~(and this work) actually contradicts this implication---
+However, what is demonstrated by related work~(and this work) actually contradicts this implication ---
 the design of the Android OS does not take control confidentiality into consideration. 
 For example, Ren et al.~\cite{usenix15 paper} and Bianchi et al.~\cite{oakland paper} 
 exploits the insecure design of the task management to launch task hijacking and GUI confusion. 
@@ -35,53 +35,30 @@ which are desirable in modern mobile devices.
 This execution model is the so-called \emph{event-driven} and \emph{callback} mechanism, 
 which is fundamentally different from the traditional execution model like the single-entry-point model of desktop programs. 
 In particular, a program running on Android changes its control flow according to the occurrence of certain events, instead of in a pre-defined execution order. 
-This mechanism provides an asynchronous way for a specific app to invoke its certain method(s) when a certain event happens. 
+This mechanism provides an asynchronous way for a specific app to invoke its certain methods~(i.e., event handlers) when a certain event happens. 
 As a typical example, a pre-defined \texttt{onClick} callback function in an app is invoked and only invoked after the certain registered button is clicked by the user. 
 
+The event-driven mechanism, however, sometimes reveals control information of an app to another malicious app on the device. 
+This threat occurs when an event triggers the execution of the callbacks from different components and even different apps. 
+We call this kind of events \emph{public events}  
+and corresponding callbacks \emph{public event callbacks}~(PEC). 
+The public events are ubiquitous in Android. Examples 
+include system events, implicit intents, service running status, etc. 
+Observing the occurrence of a public event, 
+a malicious app can learn that in each of the apps which have registered the corresponding event callbacks, 
+the control is transferred to the corresponding PEC. 
+If the PEC leads to some program locations where the attacker plans to mount his attacks, 
+the attacker successfully learns a precise timing to commit his attacks. 
+A typical example is to exploit the PEC for GUI attacks~\cite{chen2014peeking,bianchi2015app,ren2015towards} in the popular social app \texttt{WeChat}. 
+It contains a ``Shake for assigned chats'' module, such that 
+a random online friend is recommended after the user slightly shake the device. 
+However, the shake action is a public event. 
+A malicious app running in the background can observed this action, so that it can judge the timing of certain foreground display by \texttt{WeChat}. 
+Further, the malware is able to craft attacks like phishing and spoofing exploiting the judgement to the foreground. 
+In general, PEC violates the control confidentiality and enables the attacker to learn a precise timing. 
+%The PEC is insensitive on surface but offers attack materials for other apps with evil purpose. 
+In section 4, we present in detail how such threats can be involved into various types of attacks. 
 
-However, not all the cases emerge so ideally. There still exists a large spectrum of public events that can trigger the execution of callbacks from different components and even different apps. We call this kind of trigger events PE(public events) and corresponding callbacks PECs(public event callbacks). Examples of PE include system event, implicit intent, service running status, etc. The PE offers the same trigger source to callback executions from different apps. Such characteristic contains potential threats that an evil app can sniff the execution time of specific callback within a victim app, so long as an understanding about the victim's program logic has been prepared. We consider the PEC as a severe threats for it offers an accurate way to predict the execution timing, which is widely exploited by existing UI attacks\cite{chen2014peeking}\cite{bianchi2015app}\cite{ren2015towards}. A typical PEC case is about the "Shake" module of the popular app Wechat. In the "Shake" scene, a random online friend is recommended after the user slightly shake(acts as the PE) the device. However, an adversary app running on the background can also capture the shake action, so that it can judge the timing of certain foreground display in the Wechat. Further, the adversary app is able to craft attacks like phishing and spoofing exploiting the judgement to the foreground. The PEC is insensitive on surface but offers attack materials for other apps with evil purpose. To the end, such threats can evolve into various types of attacks that we will present in a great detail in section 4.
-
-
-
-
-
-
-
-
-
-However, the other aspect of an app which reflects the execution 
-
-However, we 
-
-
-stress the significance and necessity of \emph{control confidentiality} 
-
-
-
-
-
-Apart from the user interaction, there are a variety of events that can 
-
-
-
-
-
-
-The sound performance and effective work on those user-hospital devices have proven Android system has a great advantage in user interaction and GUI expressing. 
-
-
-One of the key points of Android raising such successes falls on the decent utility of event-driven and callback mechanism that are quite different from traditional software on design level. 
-
-Due to amounts interactions with user, the program developed on Android system has to design its program logic in a pending way.  
-
-That is to say, the program control flow changes corresponding to certain events without a pre-defined logic(e.g., a launching main function). Such even-driven design can guarantee the logic flexibility in front of different scenes in practise. Normally, an effective event can trigger a certain callback method executing. The callback methods provide an asynchronous way for a specific class to invoke certain method when a certain event happens. For example, a typical onClick callback method defined in the button OnClickListener interface is always invoked after the certain registered button is clicked by user. Developer can arrange corresponding repose logics in the onClick callback, like jumping to another activity or popping up a notice dialog. However, these logics are not executed until the click event happens.
-
-There are a variety of events that can trigger certain callback APIs provided by Android. Generally, each event is related to the callbacks belonging to a single specific app. For instance, the explicit intent specifies the single address(package name) of the targeted recipient and sends the intent out through a broadcast event. When the event is received by the specified single app, only the callback (e.g., onReceive method in broadcast receiver) in the recipient would be executed. Under the protection of sandbox, other app is hard to obtain the intent content from the event or the targeted recipient on the application level. And even the entire broadcast process is properly protected by such single receiver mechanism. 
-
-However, not all the cases emerge so ideally. There still exists a large spectrum of public events that can trigger the execution of callbacks from different components and even different apps. We call this kind of trigger events PE(public events) and corresponding callbacks PECs(public event callbacks). Examples of PE include system event, implicit intent, service running status, etc. The PE offers the same trigger source to callback executions from different apps. Such characteristic contains potential threats that an evil app can sniff the execution time of specific callback within a victim app, so long as an understanding about the victim's program logic has been prepared. We consider the PEC as a severe threats for it offers an accurate way to predict the execution timing, which is widely exploited by existing UI attacks\cite{chen2014peeking}\cite{bianchi2015app}\cite{ren2015towards}. A typical PEC case is about the "Shake" module of the popular app Wechat. In the "Shake" scene, a random online friend is recommended after the user slightly shake(acts as the PE) the device. However, an adversary app running on the background can also capture the shake action, so that it can judge the timing of certain foreground display in the Wechat. Further, the adversary app is able to craft attacks like phishing and spoofing exploiting the judgement to the foreground. The PEC is insensitive on surface but offers attack materials for other apps with evil purpose. To the end, such threats can evolve into various types of attacks that we will present in a great detail in section 4.
-
-%Besides, the events from system, other apps or life-cycle have similar callback responding mechanism. 
-%Such event-driven and callback mechanism make a huge challenge on analysis of certain applications installed in Android. 
 
 To the best of our knowledge, there has not a previous work exclusively focusing on analysing and tackling the issues arising by the PEC threats. In this paper, we first engage a comprehensive analysis and a large scale of market apps survey about the PEC. Fortunately, Android ecosystem provider a relatively open environment allowing one to make a pre-analysis of a targeted app off-line. Such feature makes it possible to identify the potential victim apps suffering from the PEC threats. Nonetheless, the identification to the PEC within a certain app should overcome two main challenges. One is that attackers have to obtain materials of targeted apps on the code level overcoming the code confusion. The other one is to detect out at least one feasible inferring path across numerous control flow paths within the targeted app. Such path should contain a callback function that can be invoked by an exposed public event and a display-sink(e.g., startActivity or Toast.makeText) point with exposure features. For all, it is entirely possible to identify a victim for a wily attacker. 
 
