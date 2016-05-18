@@ -51,7 +51,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{graphicx}
-
+%\usepackage{shortcuts}
 
 \begin{document}
 
@@ -260,6 +260,9 @@ To evaluate the real influence of such threats, we implement a static analysis t
 %\terms{Theory}
 
 \keywords{Android security; Information leaks; Permissions}
+
+%\input{Chapters/intro1.tex}
+%\input{Chapters/background1.tex}
 
 \section{Introduction}
 Android platform has been already proven to be prevalent as a typical operating system installed in nowadays smartphone and tablet. The sound performance and effective work on those user-hospital devices have proven Android system has a great advantage in user interaction and GUI expressing. One of the key points of Android raising such successes falls on the decent utility of event-driven and callback mechanism that are quite different from traditional software on design level. Due to amounts interactions with user, the program developed on Android system has to design its program logic in a pending way.  That is to say, the program control flow changes corresponding to certain events without a pre-defined logic(e.g., a launching main function). Such even-driven design can guarantee the logic flexibility in front of different scenes in practise. Normally, an effective event can trigger a certain callback method executing. The callback methods provide an asynchronous way for a specific class to invoke certain method when a certain event happens. For example, a typical onClick callback method defined in the button OnClickListener interface is always invoked after the certain registered button is clicked by user. Developer can arrange corresponding repose logics in the onClick callback, like jumping to another activity or popping up a notice dialog. However, these logics are not executed until the click event happens.

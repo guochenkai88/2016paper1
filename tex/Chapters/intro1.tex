@@ -11,7 +11,7 @@ Violation of the control confidentiality enables the attacker to observe the exe
 and in consequence, the attacker becomes able to mount fine-grained attacks such as tapjacking~\cite{@chenkai: add citation here, you can find the citation in the oakland paper}, 
 clickjacking~\cite{find one or two, may be GUI state paper mentioned some} and GUI confusion~\cite{oakland paper}, at a precise timing. 
 
-Android is a ``multitasking'' OS that execute multiple apps from multiple origins in a concurrent way, and  
+Android is a ``multitasking'' OS that executes multiple apps from multiple origins in a concurrent way, and  
 %Each app is executed within a isolated sandbox, with the objective that an app, 
 %even if it is compromised, cannot interfere the data and code of another app. 
 each app is executed within a isolated sandbox. 
@@ -38,7 +38,7 @@ In particular, a program running on Android changes its control flow according t
 This mechanism provides an asynchronous way for a specific app to invoke its certain methods~(i.e., event handlers) when a certain event happens. 
 As a typical example, a pre-defined \texttt{onClick} callback function in an app is invoked and only invoked after the certain registered button is clicked by the user. 
 
-The event-driven mechanism, however, sometimes reveals control information of an app to another malicious app on the device. 
+The event-driven mechanism, however, sometimes reveals control information of an app to another malicious app on the same device. 
 This threat occurs when an event triggers the execution of the callbacks from different components and even different apps. 
 We call this kind of events \emph{public events}  
 and corresponding callbacks \emph{public event callbacks}~(PEC). 
@@ -55,7 +55,8 @@ a random online friend is recommended after the user slightly shake the device.
 However, the shake action is a public event. 
 A malicious app running in the background can observed this action, so that it can judge the timing of certain foreground display by \texttt{WeChat}. 
 Further, the malware is able to craft attacks like phishing and spoofing exploiting the judgement to the foreground. 
-In general, PEC violates the control confidentiality and enables the attacker to learn a precise timing. 
+In general, PEC violates the control confidentiality 
+and enables the attacker to learn the victim app's execution state and to mount his attack at a precise timing. 
 %The PEC is insensitive on surface but offers attack materials for other apps with evil purpose. 
 In section 4, we present in detail how such threats can be involved into various types of attacks. 
 

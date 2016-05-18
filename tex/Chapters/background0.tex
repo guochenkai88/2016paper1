@@ -1,0 +1,63 @@
+\section{Background}
+In order to better understand the mechanism of this kind of attacks, firstly some relative background knowledge needs to be introduced.
+
+\subsubsection{Events and Callbacks}
+Events and callbacks are the ways that app interacts with Android system and users. Here, we define an \textit{event} as a situation that can trigger certain program logic to work. For instance, the explicit intent broadcast is such an event that can trigger a certain app receiving it and executing specific code after receiving.
+Again, we define a \textit{public event} as situation that can trigger the programs logics from more than one app to work. Correspondingly, an implicit intent broadcast caters the definition of public event, which can be received by multiple apps. Apparently, the public event is the subset of the event.
+Furthermore, we define a \textit{callback} as the code(e.g., function and program branch) that is executed after certain event(s) happen(s), and the execution is only related to such event(s). For example, an onClick method would only be executed after user clicks certain button. 
+
+\subsubsection{Events in Android}
+The trigger-events originated by different sources are equipped with different trigger features. For instance, a \textit{low-battery} event would happen only when the rest quantity of battery becomes as low as a pre-defined level, which is irrelevant to user's interaction. We categorize the events lied in Android that can lead to certain invocation of callback as three groups, namely \textit{life-cycle} event, \textit{user-driven} event, and \textit{system-driven} event.
+
+\textbf{Life-cycle event} Android apps spontaneously arouse corresponding callback function according to the life-cycle step it resides. We call the event that can trigger life-cycle method to execute as life-cycle event. For instance, an Activity executes its \textit{onCreate} function when it is initially loaded, and executes the \textit{onPause} callback after it loses the screen focus. Life-cycle callbacks are somehow executed along with user's interactions and impacted by users. On surface, due to constraint of sandbox mechanism, the life-cycle phrases (Create,Pause,Destroy, etc.) of an given activity seem to be isolated from components belong to other apps. However, the event triggering certain life-cycle callbacks like onCreate and onDestroy enables other app to predict it in an indirect way. For example, the event that an activity is launching leads to the onCreate method in that activity executing. We conclude such life-cycle event that can expose the execution trace of certain app in Table 1.
+
+\textbf{User-driven event} User-driven events interact with corresponding Android API in a direct way. User regularly are guided to perform diverse actions on screen, such as tapping, dropping up and down, click, double-click, etc., to operate a new app. Right after capturing an action from users, Android system would react following the  corresponding callback function that reflects the functionality and logic designed by developer. Generally, the user-driven event trigger the code execution of the one getting screen focus, which is hard capture by other apps. However, there still exists some user-driven events unrelated to the screen(e.g., shake action) acting as public events. 
+
+\textbf{System event} System event normally come from the situation a given system status changes. If not specified, system event could be obtained by any app in theory so long as one is granted proper permissions. Generally, the permission granting could hardly attract user's attention for system event such as battery status is insensitive to user. To the end, system event provides an indirect entry for adversary app getting parts of the running process of other apps that implement system-driven callbacks interfaces. Table1 lists parts of system event instances.
+
+\begin{table*}[t]
+\centering
+ \caption{\label{tab:test}Parts of events and callbacks in Android}
+ \begin{tabularx}{\linewidth}{XXXXX} 
+  \toprule
+  Categories & Event & Callback & Permission & Public \\
+  \midrule
+  life-cycle & app starting & onCreate/onStart(launching activity); statical broadcast receiver & N/A & Y\\
+  			 & app starting & onCreate/onStart(launching activity); statical broadcast receiver & N/A & Y\\                      
+             & service starting & onCreate/onBind & N/A & Y\\
+             & service starting & onCreate/onBind & N/A & Y\\
+             
+             & activity losing focus & onPause & N/A & N\\
+             
+  user-driven & clicking button & onClick & N/A & N\\
+              & shaking & onSensorChanged & N/A & Y\\
+              & 
+              
+  system  & Intent.ACTION\_BATTERY\_LOW & onReceive & N/A & Y \\
+          & Intent.ACTION\_BOOT\_COMPLETED & onReceive & RECEIVE\_BOOT\_COMPLETED & Y \\
+  
+  \bottomrule
+ \end{tabularx}
+\end{table*}
+
+\subsubsection{Callback and Components}
+Android platform is a kind of open source operating system established by Linux core. Developers could design and develop their own app product on Android in a flexible way, causing Android freely provides a variety of open source libraries and frameworks for developers. Of which, four types of components plays the key role in Android app's construction, namely \textit{Activity}, \textit{Service}, \textit{Broadcast Receiver} and \textit{Content Provider}. \textit{Activity} is designed as a graphical interface for interacting with users. Nevertheless, \textit{Service} is mainly used for handling complex computing job in background without a graphical user interface. \textit{Broadcast Receiver} provides a global listener that could trigger specific code logic when receive relative message. \textit{Content Provider} providers a universal interface for data storage and management, and for sharing data between different components. As a side-effect of user-driven mechanism, Android provides numerous of callback interfaces to be implemented by generic developers. Most of them rely on certain component, which we give greater details in follows.
+
+\textbf{Callback in Activity} 
+Most of callbacks in Activity are invoked by user-driven and life-cycle events, causing activity is mainly used for providing a visible graphic interfaces so as to interact with users. As aforementioned, upon the protection of sandbox, these callback statuses are hardly obtained by other apps only if the event triggered by user is irrelevant to screen focus. For instance, a shake action from users would lead to \textit{sensor} related events, which have no especial association with the screen. Besides, some system-driven callbacks are implemented in activity for catering the requirements of functionalities. 
+
+\textbf{Callback in Service} 
+Handling program logic and computing tasks in background, Service has no direct interaction with users, which is typically different from Activity. By this means, callbacks from service only come from life-cycle and system statuses. Yet, user's action without screen focus could be an exception, which we will discuss later.
+
+Service life-cycle consists of five callback functions(onCreate, onStartCommand, onBind, onUnbind and onDestroy) but has a simpler life-cycle procedure compared with Activity. Being the same as Activity, these life-cycle callbacks are isolated from components of other apps so that has little utility value for attacker. 
+
+Regularly, most of \textit{Services} are designed to wait for a typical signal and then invoke corresponding callback functions to push their computing result to an output interface, such as a \textit{dialog} or an \textit{Activity}. In general, the signal could be any type of event, invocation from other component or a program condition. If the trigger event belongs to system events, it can be easily obtained by component from other apps. This makes possible for attackers to perceive the execution process of a target app.
+
+It is also possible to trigger a callback through a user-driven event in service, which is irrelevant to visible screen (e.g., shaking the phone to trigger SensorChanged event). Without specified receiver, this kind of events could be easily obtained by other apps either.   
+
+\textbf{Callback in Broadcast Receiver} 
+The \textit{Broadcast} has a wide spectrum of sources, from system or other components and can be delivered across all the installed apps through a common medium \textit{Intent}. Generally, callback functions in Broadcast Receiver only act as a channel that responses the coming Broadcast and then launches corresponding \textit{service} or \textit{activity} to handle it. However, once lacking of strong constraint, Broadcast Receiver could suffer from the threats of repeatedly receiving trash message from an adversary Broadcast sender. Similarly, it is also possible that a typical Broadcast is intercepted by a deliberately designed Receiver. Therefore, developers normally add some protection measures, such as setting the "export" property as false or using self-defined permission, to prevent from such attacks.
+
+\textbf{Callback in Content Provider}
+Content Provider acts as a channel for operating database in Android system, so callbacks in Content Provider appear quite trivial. Similar with Service, the Content Provider is designed as background component and its lifecycle callback onCreate() is mainly used to initialize the provider object. However, the provider is initiated when invoked by the operation from ContentResolver related to user-driven and program logic. Therefore, attackers are hard to leverage the process causing the launching time of a certain provider is hard to be captured by other apps. Besides, developers seldom set security related logics within onCreate() and other callbacks of Content Provider. Based on above consideration, we exclude the Content Provider in later PEC discussion.
+
