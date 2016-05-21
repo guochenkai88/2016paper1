@@ -1,15 +1,40 @@
-\section{Attacks}
+\section{Attacking PEC Weakness}
 
 %\subsection{Exploiting Condition}
 %\paragraph{App Description}
 %\paragraph{Timer}
 
-\subsection{Threat Model}
-Our analysis is built on arbitrary Android device environment with an adversary app stealthily running on the background out of user's awareness.  The adversary needs to conceal its behaviours and minimize its impact on the device performance. The goal of attackers is to conduct the \emph{event hijacking} exploiting certain victim app and to achieve its malicious purpose(e.g., obtain user's sensitive data and escalate access privilege). The adversary app is supposed to be installed without requesting any permissions except several common-used permissions like INTERNENT, which is commonly required by existing attacks on Android OS\cite{chen2014peeking}\cite{ren2015towards}. In some special scenarios, insensitive permissions for users such as BATTERY\_STATS are also allowed to be requested to predict victim's related \emph{control confidentiality}. 
+In this section, we present several concrete attacks against real-world apps which have the PEC weakness. 
+These attacks demonstrate that exploiting PEC weakness helps the attacker pinpoint the timing to conduct attacks. 
+
+
+\subsection{Threat Model} \label{subsec:threat}
+
+In our threat model, the attacker is able to conduct an offline control analysis before conducting the attack on the devices. 
+This offline analysis allows the attacker to learn the PEC models of the publicly available apps~(e.g., the apps published in Google Play market). 
+The attacker is able to install his attack payloads into the victim devices, through either luring the users into installing his apps or injecting his code into 
+the installed benign apps. 
+%Our analysis is built on arbitrary Android device environment with an adversary app stealthily running on the background out of user's awareness.  
+%The adversary needs to conceal its behaviours and minimize its impact on the device performance. 
+The attack payloads can be stealthily run on the background out of the user's awareness. 
+The attacker also has to conceal its behaviours and minimize its impact on the device performance. 
+% \baigd{comments: how? the attacker needs to read /proc file periodically. You may have to measure the performance/battery overhead}
+The goal of attackers is to conduct the \emph{event hijacking} exploiting certain victim app 
+and to achieve its malicious purpose~(e.g., to obtain user's sensitive data and to escalate access privilege). 
+Similar to related work~\cite{chen2014peeking,ren2015towards}, 
+the adversary app is supposed to be installed 
+%without requesting any permissions except 
+with only a couple of commonly-used permissions like \texttt{INTERNENT}. 
+%which is commonly required by existing attacks on Android OS
+%\cite{chen2014peeking}\cite{ren2015towards}. 
+In some special scenarios, insensitive permissions for users such as \texttt{BATTERY\_STATS} are also allowed to be requested in order to 
+%predict \baigd{What do you mean here?} victim's related \emph{control confidentiality}. 
+observe the occurrence of the public events.  
 
 
 %The adversary is supposed having the capability of using public  and analysing them on the fly. Again, . As introduced in "Callback State Model", this capability can be obtained by particular methods within ActivityManager class.
 %it should stay aware of the running states of apps and some particular services
+
 \subsection{Attacks Exploiting the PEC Threats}
 
 \begin{figure}
@@ -36,10 +61,22 @@ Our analysis is built on arbitrary Android device environment with an adversary 
 \caption{\label{}Example of Activity Phishing with PEC threats}
 \end{figure}
 
-In order to understand the attack feasibility of PEC threats, we explore typical types of attacks and present a detailed description of them in this section. Here, we represent one type of attack aiming to each display-sink as a fundamental exploration effort. We can foresee more attack types will continually emerge once the PEC threats are commonly noticed by attackers. 
+
+In this section, we present several representative exploits of the PEC weakness against the real-world apps. 
+We demonstrate 1) how these exploits can be used to 
+pinpoint a precise timing for GUI phishing attacks, and more importantly, 
+2) how an attacker who has learnt the control flow information of the victim apps 
+ can turn his easily-observable phishing attacks into unnoticeable ones. 
+All the presented attacks have been tested on Android versions 3.*, 4.* and 5.*. 
+\baigd{@Chenkai: check here}
+
+
+%In this section, we present several representative attacks against the real-world apps
+%In order to understand the attack feasibility of PEC threats, we explore typical types of attacks and present a detailed description of them in this section. Here, we represent one type of attack aiming to each display-sink as a fundamental exploration effort. We can foresee more attack types will continually emerge once the PEC threats are commonly noticed by attackers. 
 
 %Following represents typical attacks forms that utilizes the PEC of victim app or PEC itself. According to the display-sink a PEC ends to, we representatively list several main types of attack examples, namely dialog \& toast privilege escalation, notification forgery, shaking-display spoofing and activity phishing. 
-\subsubsection{Dialog \& Toast Privilege Escalation}
+
+\subsubsection{Phishing Attacks Against Critical Dialog/Toast}
 
 %A typical implementation of above logic is represented as following:
 %\begin{figure}
@@ -48,12 +85,53 @@ In order to understand the attack feasibility of PEC threats, we explore typical
 %\caption{\label{}control-flow}
 %\end{figure}
 
-Both of Dialog and Toast(D\&T for short) act as a type of window display for notifying users the intermediate results or alert information when a particular event happens. Previous attacks haven't pay enough attention to Dialog and Toast since the size of information carried by them is too small to make considerable security impact. Most of existing attacks upon D\&T rely on fooling user by a lure surface, which emerges in a sudden way that inevitably arises user's suspicion. In contrast, exploiting PEC threats is able to control the attack timing in reasonable scenes.
+In Android, Both of Dialog and Toast~(D\&T for short) 
+act as a type of window display for notifying users the intermediate results or alert information when a particular event happens. 
+Existing malicious apps~\cite{@chenkai: need citation here} spoof D\&Ts and pop up them occasionally or periodically, 
+and once they are clicked, ... \baigd{@chenkai: add the consequence here.}
+However, those D\&Ts are almost popped up at a wrong timing and they would inevitably arise the user's suspicion. 
 
-\textbf{PEC analysis.} %Once a public event is received, an adversary app would be easy to predict the time when a dialog or toast really emerges as long as the targeted app lacks of complex condition constrains in its control flow of the key callbacks. 
-Compared to sensitive information, D\&T are more likely to reflect real-time status about either app execution or system relevant resources such as \textit{battery}, \textit{memory}, \textit{voice}, etc. However, most of these statuses are closely connected to PE trigger (e.g., system will send BATTERY\_LOW event to indicate low battery condition on the device, which can be received by ordinary apps). Therefore, a PEC threat contained by the D\&T or Toast holder  provides an indirect way for attacker understanding the popping up timing of certain D\&T and Toast. Further, attackers can employ user's trust of such D\&T holder to get the same trust for their adversaries.
 
-System management apps(e.g., DU Speed Booster, Avast Cleanup, etc.) can be treated as a typical type of such D\&T holder since they need to frequently prompt user about system running status. Here, we take the storage status as an illustration example. When the free storage of system rests as low as a given level, a DEVICE\_STORAGE\_LOW event serves as a public event and will be sent out by system itself. Professional system management apps installed on the device receive the event by background \textit{Service} that drives a \textit{BroadcastReceiver}. The receiver PEC \texttt{onRecevie()} of the BroadcastReceiver filters the received public event. If the receiver PEC links to a D\&T display window (e.g., pop up a corresponding Dialog with a short alarm message \textit{"Your phone is still running slowly. Give it a deep boost now?"}), the D\&T can be predicted to be popped up on foreground in seconds. The PEC threats here assists to expose the certain knowledge about running stage (\textit{"Hey! I have prepared to release the occupied storage!"}) of such system management apps.
+
+
+%Previous attacks haven't pay enough attention to Dialog and Toast since the size of information carried by them is too small to make considerable security impact. Most of existing attacks upon D\&T rely on fooling user by a lure surface, which emerges in a sudden way that inevitably arises user's suspicion. In contrast, exploiting PEC threats is able to control the attack timing in reasonable scenes.
+
+
+D\&Ts mostly are used for prompting the users about the real-time status of the app execution or system-level resources such as battery, memory and voice. 
+Most of these statuses are triggered by the public events --- for example, Android system broadcast a \texttt{BATTERY\_LOW} event to 
+indicate low battery condition on the device, and this event can be globally received. 
+To make the problem even worse, 
+because these events are usually related to the critical system-level status, 
+the users tend to confirm the prompted actions~(by clicking ``Yes'' or ``OK''). 
+In consequence, the success chance of the phishing attack with a spoofing D\&T increases. 
+
+ %by apps). Therefore, a PEC threat contained by the D\&T or Toast holder  provides an indirect way for attacker understanding the popping up timing of certain D\&T and Toast. Further, attackers can employ user's trust of such D\&T holder to get the same trust for their adversaries.
+%\textbf{PEC analysis.} %Once a public event is received, an adversary app would be easy to predict the time when a dialog or toast really emerges as long as the targeted app lacks of complex condition constrains in its control flow of the key callbacks. 
+%Compared to sensitive information, D\&T are more likely to reflect real-time status about either app execution or system relevant resources such as \textit{battery}, \textit{memory}, \textit{voice}, etc. However, most of these statuses are closely connected to PE trigger (e.g., system will send BATTERY\_LOW event to indicate low battery condition on the device, which can be received by ordinary apps). Therefore, a PEC threat contained by the D\&T or Toast holder  provides an indirect way for attacker understanding the popping up timing of certain D\&T and Toast. Further, attackers can employ user's trust of such D\&T holder to get the same trust for their adversaries.
+
+Based on these logic, we have studied the most popular
+system management apps~(including \textsf{DU Speed Booster}, \textsf{Avast Cleanup}, etc.) which 
+are typical apps that mainly process the system-level settings and frequently prompt the users for system running states. 
+In this section, we take the process that \textsf{DU Speed Booster}~(denoted by \du hereafter) handles the storage status as an illustration example. 
+\du is a system optimizer app which has accumulated more that 100 million installs. 
+
+
+\paragraph{Working Model of Event-to-D\&T Control}
+There exists a control flow from the PEC to the critical D\&Ts in \du, which working in the following way. 
+\begin{itemize}
+    \item Step \ding{172}. Once \du is started, it dynamically registers a broadcast receiver in the life-cycle event callback \texttt{onCreate} of its main Activity. 
+    \item Step \ding{173}. This receiver aims to capture a public event named \texttt{DEVICE\_STORAGE\_LOW}. 
+This event is broadcast by the system 
+when the free storage on the device decreases to a level lower than a given level. 
+    \item Step \ding{174}. 
+Once this event is received by the receiver, the PEC \texttt{onReceiver} in this receiver pops up an alert dialog 
+with short alarm messages like \emph{"Your phone is running slowly. Give it a deep boost now?"} and 
+%, the D\&T can be predicted to be popped up on foreground in seconds. The PEC threats here assists to expose the certain knowledge about running stage (
+\emph{"Hey! I have prepared to release the occupied storage!"}.  
+%of such system management apps.
+    \item Step \ding{175}. If the user confirms it, \du will transfer to process storage releasing. 
+\end{itemize}
+
 
 %and request user's decision whether to release the wasted occupation. If user  agree button, a new process launched by the manager app starts running.
 
@@ -62,15 +140,35 @@ System management apps(e.g., DU Speed Booster, Avast Cleanup, etc.) can be treat
 %The key point is the memory status(info.availMem) are public resources and can be obtained by any app installed in the device without any permission request. Moreover, the implementation control flow is designed so simple that 
 %the condition logic and variable "threshold" could be easily reconstructed in an adversary app. A experienced attacker could also obtain the these key logic and variables through reverse-engineering and binary analysis. As a result, the condition "info.availMem < threshold" as a public events makes the function "AlertDialog.create()" a PEC, and attackers are able to judge the creating time of the AlerDialog from its own reconstructed adversary app installed in the same device.
 
-\textbf{Attack Implementation.}
-The analysed exposure scenario offers attacker opportunities to construct attacks escaping user's awareness. We take a privilege escalation as an illustration attack example. Figure * presents such an attack procedure for an attacker getting the \textit{Accessibility Service} grant from user. The \textit{Accessibility Service} serves as a specific functionality supplied by Android to help disabled people conveniently obtain the component status and handle the device operations . Android supports richer interfaces of the \textit{Accessibility Service} after 4.0 version, which on the other side arises higher security risk. Hence, it is restricted by Android that all relevant implementations have to be engaged under the user's manual grant in the setting option page.
+\paragraph{The Attack}
+The goal of the attacker is to pop up a spoofing dialog which if is confirmed, 
+the user will be directed to a system setting page desired by the attacker. 
+The spoofing dialog can deceive the user into thinking the storage releasing action requires the 
+user to manually do some settings. 
+Since the user believes that he is directed to this page by \du, he is highly likely to 
+confirm the setting desired by the attackers. 
+A good example of the setting pages is the \texttt{Accessibility Service} setting~(shown in Figure~\ref{@snapshot here}). 
+The \texttt{Accessibility Service} serves as a specific functionality supplied by Android to help disabled people conveniently 
+obtain the component status and handle the device operations. 
+Android supports even richer interfaces of the \texttt{Accessibility Service} after version 4.0, which on the other side arises higher security risk. 
+Hence, it is restricted by Android that all relevant implementations have to be engaged under the user's manual grant through the setting page.
+If granted this permission, the malicious app becomes able to \baigd{@chenkai: emphasize why this permission is dangerous}. 
 
-% for developers implementing their Accessibility functionalities like listening user actions. Undoubtedly, this functionality is so powerful that it is impossible to be ignored by attackers. However,  It seems infeasible for attackers to get the grant directly. After all, it performs very suspicious if such a setting window suddenly opens on the foreground against user's intention.
-If an advarsary app desires to obtain the \textit{Accessibility Service} grant, it is infeasible to pop up the grant page in an improper scenario causing an unreasonable display can easily arise user's suspicion. However, by exploiting the PEC of such a trusted system management app, the attack procedure could become more reasonable to escape user's perceptiveness. 
+A critical factor to achieve this attack is the timing. 
+For example, an intuitive way is to pop up the spoofing dialog once \du is detected to be running on foreground. 
+The problem is that it may raises the user's suspicion if \du does not actually conduct storage releasing after foreground interface switches back 
+from the system setting page. 
+In contrast, this problem can be prevented if the spoofing dialog is popped up after step \ding{174}. 
+The malicious app can pinpoint this timing via the following steps. 
 
-The background adversary service first monitors if the PEC service is running through the \texttt{getRunningServices()} offered by the \texttt{ActivityManager}. Fortunately, the invoking of \texttt{getRunningServices()} needs not any permission request and has not been constrained as the \texttt{getRunningTasks()}(mentioned in Section *) so far. 
-
-After that, the adversary waits for the PE (the free memory size falls below a given threshold) coming using the same logic designed by trusted victim app. Once the PE happens, the adversary understands that the victim has prepared to release storage (Figure *(a)). At this point, adversary shows its own fake Dialog covering on the original one, avoiding user seeing it (Figure *(c)). In the fake Dialog, a lure message tells user a corresponding \textit{Accessibility Service} have to be grant to complete the cleaning storage task. Once user clicks \textit{Agree} button, a \textit{Accessibility Service} setting page is automatically opened on the foreground using Setting.ACTION\_ACCESSIBILITY\_SETTINGS intent as Figure *(d) did. For further conceal the attack feature, the name of malicious \textit{Accessibility Service} is camouflaged as the confused one (e.g., "DU deep boost" for forging the \textit{DU booster} app ). In practice, we take 2s delay for catering the emergence of targeted Dialog. 
+\begin{itemize}
+    \item Step \ding{182}. The malicious app starts a background service which monitors whether \du is in running on foreground, namely whether the PEC \texttt{onCreate} happens. 
+    \item Step \ding{183}. If \ding{182} happens, the malicious app then registers a receiver to monitor whether \texttt{DEVICE\_STORAGE\_LOW} occurs.  
+    \item Step \ding{184}. If \ding{183} happens, the malicious app pops up a spoofing a dialog immediately after the \du's dialog has been popped up --- this is possible to achieve given that the attacker can measure the length of time period \du takes to pop up its dialog after \ding{183} happens. 
+    At this point, the spoofing dialog covers \du's dialog.
+    It can pretend as the latter and say that \emph{``\du needs \texttt{Accessibility Service} permission for storage releasing.''} . 
+    \item Step \ding{185}.  Once user clicks \textit{Agree} button, a \textit{Accessibility Service} setting page is automatically opened on the foreground using \texttt{Setting.ACTION\_ACCESSIBILITY\_SETTINGS}. 
+\end{itemize}
 
 \subsubsection{Notification Forgery}
 The Notification in Android normally works for showing the received updated message and the task progress information, which is somehow similar as D\&T. Different from the latter, the user is not necessary to immediately handle the message sent by a Notification. Instead, the developer uses \texttt{PendingIntent} to handle intent in the future, which is upon when user clicks the Notification. 
