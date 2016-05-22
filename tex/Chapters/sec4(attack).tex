@@ -76,7 +76,7 @@ All the presented attacks have been tested on Android versions 3.*, 4.* and 5.*.
 
 %Following represents typical attacks forms that utilizes the PEC of victim app or PEC itself. According to the display-sink a PEC ends to, we representatively list several main types of attack examples, namely dialog \& toast privilege escalation, notification forgery, shaking-display spoofing and activity phishing. 
 
-\subsubsection{Phishing Attacks Against Critical Dialog/Toast}
+\subsubsection{Phishing Attacks Against Critical Dialog/Toast} \label{subsubsec:dialogattack}
 
 %A typical implementation of above logic is represented as following:
 %\begin{figure}
@@ -204,8 +204,34 @@ Consider the app Carousell, a popular goods-trading platform that frequently sen
 %\input{Chapters/sec4(attack)}
 %\input{Chapters/sec5(detection)}
 
-\subsubsection{Activity Phishing}
-Traditionally, attackers used to phish a  targeted app when its \textit{MainActivity} is launching. This attack faces on a primary constrains that the targeted  MainActivity should contains security-sensitive user input, e.g., a login page and a sign up page. Otherwise, the attack appears out of value. However, current apps seldom place their login page in the MainActivity for defending that attack. The PEC threats of targeted app provide attacker a new way to improve the traditional activity phishing.  
+\subsubsection{Phishing Attacks against Internal Activity}
+
+Existing phishing attacks targeting the Activity 
+mount their spoofing interface when they observe
+that the victim apps is being launched. 
+The main problem is that the timing of spoofing an internal activity~(an activity which no any filter is applied to in the manifest file) 
+cannot be precisely determined. 
+In \cite{UI state}, side channels are used for identifying a foreground activity. 
+As an alternative approach, the attacker can exploit the PEC weakness to achieve this goal. 
+%In the following, we demonstrate a concrete example. 
+
+The PEC that can be abused to conduct phishing attacks against internal activity is related to the implicit intent. 
+In Android, an implicit intent is known as a 
+way for an app to send an intentioned request
+to be processed by other apps 
+without specifying a explicit receiver. 
+If an app sends an implicit intent request and there exist more that one apps which can process the request, 
+Android system will pop up a system dialog listing all these apps for the user to choose. 
+After the 
+user chooses to click any of the listed apps, 
+the system invokes the chosen app with the request as the parameter. 
+The feature of this way is that an internal activity can be invoked.  
+At this point, the attacker can pop up a phishing page which spoof the invoked activity. 
+We remark that the receiver activity, even check the sender, can be attacked in this way. 
+
+
+
+
 
 \textbf{PEC analysis.} Here, we introduce a more complex PEC example related to implicit intent. The implicit intent is known as a bridge to connect another component without specifying a single receiver. Instead, it limits a range of receivers through specifying an operation statement including the intent data and action. If an app sends an implicit intent request as well as existing more than one apps fitting the intent statement, the Android system would pop up a system dialog listing all the fitting apps for user to choose. There exists an iterative PECs threats within the delivery process of implicit intent. Firstly, if an app is pre-analysed as an intent sender, the installed adversary will launch a service to monitor the \texttt{onCreate()} PEC of its MainActivity. When an implicit intent is broadcasted out from the intent sender, it will lose its focus so that the foreground app process changes which also can be observed. At this time, a system Dialog is popped up whose start PEC can be specified by the observation of process \texttt{system:ui} (mentioned in section **). Again, when user chooses to click one of the intent receiver apps, its \texttt{onReceive()} PEC will be invoked to pop up an activity. After obtaining above knowledge, adversary should have a clearly understanding about the implicit intent delivery. After adversary captures the intent receiver's PEC, a phishing page will be popped up covering the original one.
 
@@ -215,11 +241,29 @@ We take the app Gallery as an illustration example. The Gallery providers a shar
 
 As analysed before, both of the PECs from the intent sender (whose package name is \textit{com.flayvr.flayvr}), the system dialog and the  intent receiver QQ (whose package name is \textit{com.tencent.minihd.qq}) can be observed by adversary. By capturing the PEC chain, the adversary is able to predict the emerging time of QQ's login page and then cover a phishing one on the real one. As a result, by exploiting the PEC threats, the adversary app can successfully bypass the unrelated pages (e.g., introduction page) of  targeted app and steal user's private data in a more accurate way.
 
-\subsubsection{Shaking-display Spoofing}
-\textit{Shaking-display} refers to the GUI display (e.g., Dialog, Toast, Notification and Activity) led by a shaking action. As for shaking-display spoofing, a typical case comes from the motivating example introduced in section 3.1**. The shaking action can be captured by the in-set sensor of the device. App developers normally use the \textit{SensorEventListener} and its corresponding callbacks \texttt{onSensorChanged()} and \texttt{onAccuracyChanged()} to listen and handle the shaking of device. action. Normally, the shaking value is specified through \textit{SensorEvent} (parameter type of sensor callbacks). To judge a intended shaking action from user, the SensorEvent value should be large enough avoiding the misrecognition of unexpected action without user's participating.
 
+
+
+\subsubsection{Phishing Attacks against Sensor-initiated Interface} 
+
+Modern mobile devices are equipped with various rich-functionality sensors, such as accelerometers, ambient light sensors, GPS and magnetometers. 
+These sensors are extensively used by the apps to enhance their usability. 
+A typical example is the \emph{shaking-display} model, 
+which means the GUI display~(e.g., Dialog, Toast, Notification and Activity) 
+initiated by a shaking action. 
+As for shaking-display spoofing, a typical attack is introduced in Section~\ref{subsec:motivating}. 
+On a device, the shaking action can be captured by the in-set sensors. 
+App developers normally use the \texttt{SensorEventListener} and its corresponding callbacks \texttt{onSensorChanged()} and \texttt{onAccuracyChanged()} 
+to listen and handle the shaking action of device. 
+
+%Normally, the shaking value is specified through \textit{SensorEvent} (parameter type of sensor callbacks). To judge a intended shaking action from user, the SensorEvent value should be large enough avoiding the misrecognition of unexpected action without user's participating.
+
+
+\baigd{@chenkai: the following paragraph is not necessary. Just introduce how the shaking-display works, and then how it can be attacked.}
 \textbf{PEC analysis.} The shaking-display spoofing attack is based on the assumption that the shaking action always fits the user's intention. Normally, a \textit{shake action} should occur on the \textit{shake page} (as Figure1(a)), so that we don't consider the extreme situation that a device shake happens accidentally in other page. From perspective of the program design , shaking-display contains a display-sink (mentioned in section **) that can links to a \texttt{onSensorChanged()} PEC structure. If an app is analysed containing a shaking-display logic,  an attacker can construct the same code logic in its adversary app service as the ** system API PEC \texttt{onSensorChanged()} of targeted app. This constructing process needn't any permission request. Then the adversary service monitors the \texttt{Activity.onCreate()} PEC of the targeted app. Once the targeted PEC is observed, adversary launches its own shake handler service. If a shake action occurs, the adversary service receives the same trigger action as targeted app. To the end, the invoking time of the display-sink within targeted PEC logic can be predicted by adversary, which offers significant assistant for a further attack. 
 
+
+\baigd{@chenkai: follow how I write \ref{subsubsec:dialogattack}. Explicitly say how to attack and what is the permission required by your attack}
 \textbf{Attack Implementation.}
 Consider another shaking-display spoofing object app named \textit{Shake Camera Free}. This app implements a novel usage that users could conveniently open the camera only requiring slightly shaking the device for several times. As analysed before, the handling function for responding the shaking event acts as a PEC. Therefore, adversary can capture when the camera is popped up by the \textit{Shake Camera Free}. At that time, a fake camera is launched by the adversary background service and covers on the face of original benign camera. The user is hard to distinguish the two camera surfaces and he/she is very likely to choose the fake one because it is on the foreground. Then adversary stealthily delivers the picture to the web or store it in a secret location for other usage. The only challenge of this attack that is to request the \textit{android.permission.CAMERA} permission. After all, the camera permission is not as sensitive as location or phone status for user, so it is quite feasible for an attacker to design a lure appearance to get this non-sensitive permission.
 
